@@ -47,4 +47,5 @@ public class BlocRestController {
     Bloc affecterBlocAFoyer(@RequestParam String nomBloc,@RequestParam String nomFoyer){
         return service.affecterBlocAFoyer(nomBloc,nomFoyer);
     }
+    //test webhook
 }
