@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out the repository..."
-                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: 'main', credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
+                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: 'AbderahmenSoumaya-5ARCTIC6-G3', credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
                 }
             }
         }
