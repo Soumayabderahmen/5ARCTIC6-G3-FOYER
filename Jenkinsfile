@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'BRANCH', defaultValue: 'main', description: 'Enter the branch to build')
-    }
-
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
     }
@@ -14,7 +10,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out the repository..."
-                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: "${params.BRANCH}", credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
+                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: '5ARCTIC6-G3-FOYER', credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
                 }
             }
         }
@@ -29,6 +25,7 @@ pipeline {
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
+                // Construire le livrable sans phase de test
                 sh 'mvn package -DskipTests'
             }
         }
