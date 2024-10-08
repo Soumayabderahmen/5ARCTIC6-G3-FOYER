@@ -3,13 +3,13 @@ package tn.esprit.spring.Services.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.DAO.Entities.Chambre;
+//import tn.esprit.spring.DAO.Entities.Chambre;
 import tn.esprit.spring.DAO.Entities.Etudiant;
-import tn.esprit.spring.DAO.Entities.Foyer;
+//import tn.esprit.spring.DAO.Entities.Foyer;
 import tn.esprit.spring.DAO.Entities.Reservation;
-import tn.esprit.spring.DAO.Repositories.ChambreRepository;
+//import tn.esprit.spring.DAO.Repositories.ChambreRepository;
 import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
-import tn.esprit.spring.DAO.Repositories.FoyerRepository;
+//import tn.esprit.spring.DAO.Repositories.FoyerRepository;
 import tn.esprit.spring.DAO.Repositories.ReservationRepository;
 
 import java.time.LocalDate;
@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class ReservationService implements IReservationService {
     ReservationRepository repo;
-    ChambreRepository chambreRepository;
+    //ChambreRepository chambreRepository;
     EtudiantRepository etudiantRepository;
 
     @Override
@@ -67,12 +67,14 @@ public class ReservationService implements IReservationService {
         }
         // Fin "récuperer l'année universitaire actuelle"
         Reservation res = new Reservation();
-        Chambre c = chambreRepository.findByNumeroChambre(numChambre);
+     //   Chambre c = chambreRepository.findByNumeroChambre(numChambre);
         Etudiant e = etudiantRepository.findByCin(cin);
         boolean ajout = false;
-        int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
+        return res;
+    }
+       // int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
         //int numRes = chambreRepository.listerReservationPourUneChambre(c.getIdChambre(), dateDebutAU, dateFinAU);
-        System.err.println(numRes);
+      /*  System.err.println(numRes);
         switch (c.getTypeC()) {
             case SIMPLE:
                 if (numRes < 1) {
@@ -110,7 +112,7 @@ public class ReservationService implements IReservationService {
         }
         return res;
     }
-
+*/
     @Override
     public long getReservationParAnneeUniversitaire(LocalDate debutAnnee, LocalDate finAnnee) {
         return repo.countByAnneeUniversitaireBetween(debutAnnee, finAnnee);
@@ -119,9 +121,9 @@ public class ReservationService implements IReservationService {
     @Override
     public String annulerReservation(long cinEtudiant) {
         Reservation r = repo.findByEtudiantsCinAndEstValide(cinEtudiant, true);
-        Chambre c = chambreRepository.findByReservationsIdReservation(r.getIdReservation());
-        c.getReservations().remove(r);
-        chambreRepository.save(c);
+        //Chambre c = chambreRepository.findByReservationsIdReservation(r.getIdReservation());
+        //c.getReservations().remove(r);
+        //chambreRepository.save(c);
         repo.delete(r);
         return "La réservation " + r.getIdReservation() + " est annulée avec succés";
     }
@@ -129,11 +131,11 @@ public class ReservationService implements IReservationService {
     @Override
     public void affectReservationAChambre(String idRes, long idChambre) {
         Reservation r = repo.findById(idRes).get();
-        Chambre c = chambreRepository.findById(idChambre).get();
+        //Chambre c = chambreRepository.findById(idChambre).get();
         // Parent: Chambre , Child: Reservation
         // On affecte le child au parent
-        c.getReservations().add(r);
-        chambreRepository.save(c);
+        //c.getReservations().add(r);
+        //chambreRepository.save(c);
     }
 
     @Override
