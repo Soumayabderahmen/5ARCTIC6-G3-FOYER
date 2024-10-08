@@ -5,6 +5,10 @@ pipeline {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
     }
 
+    tools {
+        maven 'Maven' // Use the configured Maven version
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -15,28 +19,24 @@ pipeline {
             }
         }
 
-        stage('Nettoyage du projet') {
+        stage('Build and Package Application') {
             steps {
-                echo 'Nettoyage du projet...'
-                sh 'mvn clean'
-            }
-        }
-
-        stage('Création du livrable') {
-            steps {
-                echo 'Création du livrable...'
-                // Construire le livrable sans phase de test
-                sh 'mvn package -DskipTests'
+                echo 'Building the application...'
+                // Clean and install (run tests)
+                withMaven(maven: 'Maven') {
+                    sh 'mvn clean install' // Change this command as desired
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'La construction a réussi, le livrable est disponible dans le dossier target.'
+            echo 'The build was successful, the deliverable is available in the target directory.'
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
         failure {
-            echo 'La construction a échoué. Vérifiez les logs pour plus de détails.'
+            echo 'The build failed. Check the logs for more details.'
         }
     }
 }
