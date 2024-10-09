@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.spring.Services.Reservation</a> &gt; <span class="el_source">ReservationService.java</span></div><h1>ReservationService.java</h1><pre class="source lang-java linenums">package tn.esprit.spring.Services.Reservation;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+//import tn.esprit.spring.DAO.Entities.Chambre;
+import tn.esprit.spring.DAO.Entities.Etudiant;
+//import tn.esprit.spring.DAO.Entities.Foyer;
+import tn.esprit.spring.DAO.Entities.Reservation;
+//import tn.esprit.spring.DAO.Repositories.ChambreRepository;
+import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
+//import tn.esprit.spring.DAO.Repositories.FoyerRepository;
+import tn.esprit.spring.DAO.Repositories.ReservationRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+<span class="nc" id="L19">@AllArgsConstructor</span>
+<span class="nc" id="L20">@Slf4j</span>
+public class ReservationService implements IReservationService {
+    ReservationRepository repo;
+    //ChambreRepository chambreRepository;
+    EtudiantRepository etudiantRepository;
+
+    @Override
+    public Reservation addOrUpdate(Reservation r) {
+<span class="nc" id="L28">        return repo.save(r);</span>
+    }
+
+    @Override
+    public List&lt;Reservation&gt; findAll() {
+<span class="nc" id="L33">        return repo.findAll();</span>
+    }
+
+    @Override
+    public Reservation findById(String id) {
+<span class="nc" id="L38">        return repo.findById(id).get();</span>
+    }
+
+    @Override
+    public void deleteById(String id) {
+<span class="nc" id="L43">        repo.deleteById(id);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public void delete(Reservation r) {
+<span class="nc" id="L48">        repo.delete(r);</span>
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public Reservation ajouterReservationEtAssignerAChambreEtAEtudiant(Long numChambre, long cin) {
+        // Pour l’ajout de Réservation, l’id est un String et c’est la concaténation de &quot;numeroChambre&quot;,
+        // &quot;nomBloc&quot; et &quot;cin&quot;. Aussi, l’ajout ne se fait que si la capacite maximale de la chambre est encore non atteinte.
+
+        // Début &quot;récuperer l'année universitaire actuelle&quot;
+        LocalDate dateDebutAU;
+        LocalDate dateFinAU;
+        int numReservation;
+<span class="nc" id="L60">        int year = LocalDate.now().getYear() % 100;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
+<span class="nc" id="L62">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
+<span class="nc" id="L63">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
+        } else {
+<span class="nc" id="L65">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
+<span class="nc" id="L66">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
+        }
+        // Fin &quot;récuperer l'année universitaire actuelle&quot;
+<span class="nc" id="L69">        Reservation res = new Reservation();</span>
+     //   Chambre c = chambreRepository.findByNumeroChambre(numChambre);
+<span class="nc" id="L71">        Etudiant e = etudiantRepository.findByCin(cin);</span>
+<span class="nc" id="L72">        boolean ajout = false;</span>
+<span class="nc" id="L73">        return res;</span>
+    }
+       // int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
+        //int numRes = chambreRepository.listerReservationPourUneChambre(c.getIdChambre(), dateDebutAU, dateFinAU);
+      /*  System.err.println(numRes);
+        switch (c.getTypeC()) {
+            case SIMPLE:
+                if (numRes &lt; 1) {
+                    ajout = true;
+                } else {
+                    log.info(&quot;Chambre simple remplie !&quot;);
+                }
+                break;
+            case DOUBLE:
+                if (numRes &lt; 2) {
+                    ajout = true;
+                } else {
+                    log.info(&quot;Chambre double remplie !&quot;);
+                }
+                break;
+            case TRIPLE:
+                if (numRes &lt; 3) {
+                    ajout = true;
+                } else {
+                    log.info(&quot;Chambre triple remplie !&quot;);
+                }
+                break;
+        }
+        if (ajout) {
+            res.setEstValide(false);
+            res.setAnneeUniversitaire(LocalDate.now());
+            // AU-BLOC-NumChambre-CIN --&gt; Exemple: 2023/2024-Bloc A-1-123456789
+            //res.setIdReservation(c.getNumeroChambre() + &quot;-&quot; + c.getBloc().getNomBloc() + &quot;-&quot; + e.getCin());
+            res.setIdReservation(dateDebutAU.getYear() + &quot;/&quot; + dateFinAU.getYear() + &quot;-&quot; + c.getBloc().getNomBloc() + &quot;-&quot; + c.getNumeroChambre() + &quot;-&quot; + e.getCin());
+            res.getEtudiants().add(e);
+            res.setEstValide(true);
+            res = repo.save(res);
+            c.getReservations().add(res);
+            chambreRepository.save(c);
+        }
+        return res;
+    }
+*/
+    @Override
+    public long getReservationParAnneeUniversitaire(LocalDate debutAnnee, LocalDate finAnnee) {
+<span class="nc" id="L118">        return repo.countByAnneeUniversitaireBetween(debutAnnee, finAnnee);</span>
+    }
+
+    @Override
+    public String annulerReservation(long cinEtudiant) {
+<span class="nc" id="L123">        Reservation r = repo.findByEtudiantsCinAndEstValide(cinEtudiant, true);</span>
+        //Chambre c = chambreRepository.findByReservationsIdReservation(r.getIdReservation());
+        //c.getReservations().remove(r);
+        //chambreRepository.save(c);
+<span class="nc" id="L127">        repo.delete(r);</span>
+<span class="nc" id="L128">        return &quot;La réservation &quot; + r.getIdReservation() + &quot; est annulée avec succés&quot;;</span>
+    }
+
+    @Override
+    public void affectReservationAChambre(String idRes, long idChambre) {
+<span class="nc" id="L133">        Reservation r = repo.findById(idRes).get();</span>
+        //Chambre c = chambreRepository.findById(idChambre).get();
+        // Parent: Chambre , Child: Reservation
+        // On affecte le child au parent
+        //c.getReservations().add(r);
+        //chambreRepository.save(c);
+<span class="nc" id="L139">    }</span>
+
+    @Override
+    public void annulerReservations() {
+        // Début &quot;récuperer l'année universitaire actuelle&quot;
+        LocalDate dateDebutAU;
+        LocalDate dateFinAU;
+        int numReservation;
+<span class="nc" id="L147">        int year = LocalDate.now().getYear() % 100;</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
+<span class="nc" id="L149">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
+<span class="nc" id="L150">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
+        } else {
+<span class="nc" id="L152">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
+<span class="nc" id="L153">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
+        }
+        // Fin &quot;récuperer l'année universitaire actuelle&quot;
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        for (Reservation reservation : repo.findByEstValideAndAnneeUniversitaireBetween(true, dateDebutAU, dateFinAU)) {</span>
+<span class="nc" id="L157">            reservation.setEstValide(false);</span>
+<span class="nc" id="L158">            repo.save(reservation);</span>
+<span class="nc" id="L159">            log.info(&quot;La reservation &quot;+ reservation.getIdReservation()+&quot; est annulée automatiquement&quot;);</span>
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

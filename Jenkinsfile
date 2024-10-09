@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        maven 'Maven' // Use the configured Maven version
+        maven 'Maven' // Utiliser la version de Maven configurée
     }
 
     stages {
@@ -22,9 +22,17 @@ pipeline {
         stage('Build and Package Application') {
             steps {
                 echo 'Building the application...'
-                // Clean and install (run tests)
                 withMaven(maven: 'Maven') {
-                    sh 'mvn clean install' // Change this command as desired
+                    sh 'mvn clean package' // Change this command as desired
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                withMaven(maven: 'Maven') {
+                    sh 'mvn test' // Exécute les tests unitaires
                 }
             }
         }
