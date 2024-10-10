@@ -42,7 +42,7 @@ pipeline {
                 echo 'Deploying the application to Docker...'
                 script {
                     // Assurez-vous que le fichier docker-compose.yml est présent
-                    sh 'sudo docker-compose up -d' // Exécute la commande docker-compose
+                    sh 'docker-compose up -d' // Exécute la commande docker-compose
                 }
             }
         }
