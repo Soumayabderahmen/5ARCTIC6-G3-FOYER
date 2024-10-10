@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        maven 'Maven' // Utiliser la version de Maven configurée
+        maven 'Maven' // Utilisez la version de Maven configurée
     }
 
     stages {
@@ -33,6 +33,16 @@ pipeline {
                 echo 'Running tests...'
                 withMaven(maven: 'Maven') {
                     sh 'mvn test' // Exécute les tests unitaires
+                }
+            }
+        }
+
+        stage('Deploy to Docker') {
+            steps {
+                echo 'Deploying the application to Docker...'
+                script {
+                    // Assurez-vous que le fichier docker-compose.yml est présent
+                    sh 'docker-compose up -d' // Exécute la commande docker-compose
                 }
             }
         }
