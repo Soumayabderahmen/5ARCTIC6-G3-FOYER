@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
-        DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials' // Ajoutez vos identifiants DockerHub ici
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soumaya' // Ajoutez vos identifiants DockerHub ici
 
     }
 
