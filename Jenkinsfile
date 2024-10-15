@@ -74,7 +74,7 @@ pipeline {
                 script {
                     echo 'Building Docker image...'
                     // Remplacez "your-image-name" par le nom correct de l'image
-                    sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer .'
+                    sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0 .'
                 }
             }
         }
