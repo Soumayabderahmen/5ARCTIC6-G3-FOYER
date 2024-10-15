@@ -111,7 +111,7 @@ pipeline {
                    to: 'soumayaabderahmen44@gmail.com', // Mettez ici l'adresse email du destinataire
                    subject: "Succès du build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                    body: """\
-                   <p>Le build a été réussi !</p>
+                   <p>Le build a été réussi !!</p>
                    <p>Consultez le build disponible ici: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                    """,
                    mimeType: 'text/html'
