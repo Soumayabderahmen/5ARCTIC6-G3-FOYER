@@ -102,13 +102,33 @@ pipeline {
     }
 
 
-    post {
-        success {
-            echo 'The build was successful, the deliverable is available in the target directory.'
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-        }
-        failure {
-            echo 'The build failed. Check the logs for more details.'
-        }
-    }
+   post {
+           success {
+               echo 'Le build a réussi, le livrable est disponible dans le répertoire cible.'
+               archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+               // Configurez l'email pour les succès
+               emailext(
+                   to: 'soumayaabderahmen44@gmail.com', // Mettez ici l'adresse email du destinataire
+                   subject: "Succès du build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                   body: """\
+                   <p>Le build a été réussi !</p>
+                   <p>Consultez le build disponible ici: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                   """,
+                   mimeType: 'text/html'
+               )
+           }
+           failure {
+               echo 'Le build a échoué. Vérifiez les logs pour plus de détails.'
+               // Configurez l'email pour les échecs
+               emailext(
+                   to: 'soumayaabderahmen44@gmail.com', // Mettez ici l'adresse email du destinataire
+                   subject: "Échec du build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                   body: """\
+                   <p>Le build a échoué !</p>
+                   <p>Consultez les logs pour plus de détails: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                   """,
+                   mimeType: 'text/html'
+               )
+           }
+       }
 }
