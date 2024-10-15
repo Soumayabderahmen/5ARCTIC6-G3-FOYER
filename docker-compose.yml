@@ -2,13 +2,10 @@ version: "3"
 services:
   springboot-app:
     image: soumayaabderahmen/soumayaabderahmen_g3_foyer
-    build: .  # Construit à partir du répertoire courant
     ports:
       - 8081:8081
     networks:
       - networkmysql
-    volumes:
-      - mysql-data:/var/lib/mysql
     depends_on:
       - mysqldb
     environment:

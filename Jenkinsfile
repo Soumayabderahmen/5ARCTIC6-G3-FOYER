@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials' // Ajoutez vos identifiants DockerHub ici
+
     }
 
     tools {
@@ -10,7 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout from Git') {
             steps {
                 script {
                     echo "Checking out the repository..."
@@ -19,34 +21,86 @@ pipeline {
             }
         }
 
-        stage('Build and Package Application') {
+        stage('Cleaning the project') {
             steps {
-                echo 'Building the application...'
+                echo 'Cleaning the project...'
                 withMaven(maven: 'Maven') {
-                    sh 'mvn clean package' // Change this command as desired
+                    sh 'mvn clean' 
                 }
             }
         }
-
-        stage('Run Tests') {
+        stage('Artifact construction') {
             steps {
-                echo 'Running tests...'
-                withMaven(maven: 'Maven') {
-                    sh 'mvn test' // Exécute les tests unitaires
-                }
-            }
-        }
-
-        stage('Deploy to Docker') {
-            steps {
-                echo 'Deploying the application to Docker...'
                 script {
-                    // Assurez-vous que le fichier docker-compose.yml est présent
-                    sh 'docker-compose up -d' // Exécute la commande docker-compose
+                    echo 'Building the project and packaging the artifact...'
+                    withMaven(maven: 'Maven') {
+                        sh 'mvn package' 
+                    }
+                }
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                echo 'Running unit  tests...'
+                withMaven(maven: 'Maven') {
+                    sh 'mvn test' 
+                }
+            }
+        }
+         /*stage('Code Quality Check via SonarQube') {
+                    steps {
+                        script {
+                            // SonarQube analysis
+                            withSonarQubeEnv('SonarQube') {
+                                sh './mvnw sonar:sonar'
+                            }
+                        }
+                    }
+                }
+
+                stage('Publish to Nexus') {
+                    steps {
+                        script {
+                            // Publish the artifact to Nexus repository
+                            sh './mvnw deploy'
+                        }
+                    }
+                }
+
+               */
+
+        stage('Building Docker Image') {
+            steps {
+                script {
+                    echo 'Building Docker image...'
+                    // Remplacez "your-image-name" par le nom correct de l'image
+                    sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer .'
+                }
+            }
+        }
+
+        stage('Pushing Docker Image to DockerHub') {
+            steps {
+                script {
+                    echo 'Pushing Docker image to DockerHub...'
+                    withCredentials([usernamePassword(credentialsId: "${env.DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                        sh 'docker push soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    echo 'Deploying application using Docker Compose...'
+                    sh 'docker-compose up -d'
                 }
             }
         }
     }
+
 
     post {
         success {

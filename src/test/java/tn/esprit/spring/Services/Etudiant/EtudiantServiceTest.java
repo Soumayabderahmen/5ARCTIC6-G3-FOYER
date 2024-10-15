@@ -3,11 +3,14 @@ package tn.esprit.spring.Services.Etudiant;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.spring.DAO.Entities.Etudiant;
 import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
 
@@ -19,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import static org.mockito.Mockito.when;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class EtudiantServiceTest {
 
     @InjectMocks
