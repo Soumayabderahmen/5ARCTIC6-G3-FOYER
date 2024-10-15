@@ -106,7 +106,7 @@ pipeline {
            success {
                echo 'Le build a réussi, le livrable est disponible dans le répertoire cible.'
                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-               // Configurez l'email pour les succès
+               // Configurez l'email pour les  succès
                emailext(
                    to: 'soumayaabderahmen44@gmail.com', // Mettez ici l'adresse email du destinataire
                    subject: "Succès du build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
