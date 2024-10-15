@@ -5,7 +5,7 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copier le fichier JAR produit de l'étape de construction
-COPY --from=build /app/target/Foyer.jar .
+COPY target/Foyer.jar .
 
 # Exposer le port 8081
 EXPOSE 8081
