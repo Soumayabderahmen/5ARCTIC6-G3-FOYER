@@ -123,7 +123,7 @@ pipeline {
             echo "Fin du Pipeline."
         }
         success {
-            echo "Le pipeline s'est terminé avec succès."
+            echo "Le pipeline s'est terminé avec succès ."
         }
         failure {
             echo "Le pipeline a échoué."
