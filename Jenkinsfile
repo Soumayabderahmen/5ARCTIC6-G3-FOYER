@@ -30,6 +30,7 @@ pipeline {
                 }
             }
         }
+
         stage('Artifact construction') {
             steps {
                 script {
@@ -40,41 +41,20 @@ pipeline {
                 }
             }
         }
+
         stage('Unit Tests') {
             steps {
-                echo 'Running unit  tests...'
+                echo 'Running unit tests...'
                 withMaven(maven: 'Maven') {
                     sh 'mvn test'
                 }
             }
         }
-         /*stage('Code Quality Check via SonarQube') {
-                    steps {
-                        script {
-                            // SonarQube analysis
-                            withSonarQubeEnv('SonarQube') {
-                                sh './mvnw sonar:sonar'
-                            }
-                        }
-                    }
-                }
-
-                stage('Publish to Nexus') {
-                    steps {
-                        script {
-                            // Publish the artifact to Nexus repository
-                            sh './mvnw deploy'
-                        }
-                    }
-                }
-
-               */
 
         stage('Building Docker Image') {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    // Remplacez "your-image-name" par le nom correct de l'image
                     sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0 .'
                 }
             }
@@ -102,7 +82,6 @@ pipeline {
         }
     }
 
-
     post {
         always {
             script {
@@ -129,5 +108,5 @@ pipeline {
                      body: body
             }
         }
-
-   }
+    }
+}
