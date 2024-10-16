@@ -30,7 +30,6 @@ pipeline {
                 }
             }
         }
-
         stage('Artifact construction') {
             steps {
                 script {
@@ -41,20 +40,41 @@ pipeline {
                 }
             }
         }
-
         stage('Unit Tests') {
             steps {
-                echo 'Running unit tests...'
+                echo 'Running unit  tests...'
                 withMaven(maven: 'Maven') {
                     sh 'mvn test'
                 }
             }
         }
+         /*stage('Code Quality Check via SonarQube') {
+                    steps {
+                        script {
+                            // SonarQube analysis
+                            withSonarQubeEnv('SonarQube') {
+                                sh './mvnw sonar:sonar'
+                            }
+                        }
+                    }
+                }
+
+                stage('Publish to Nexus') {
+                    steps {
+                        script {
+                            // Publish the artifact to Nexus repository
+                            sh './mvnw deploy'
+                        }
+                    }
+                }
+
+               */
 
         stage('Building Docker Image') {
             steps {
                 script {
                     echo 'Building Docker image...'
+                    // Remplacez "your-image-name" par le nom correct de l'image
                     sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0 .'
                 }
             }
@@ -82,31 +102,37 @@ pipeline {
         }
     }
 
+
     post {
-        always {
-            script {
-                def jobName = env.JOB_NAME
-                def buildNumber = env.BUILD_NUMBER
-                def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
-                def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
+           always {
+               script {
+                   def jobName = env.JOB_NAME
+                   def buildNumber = env.BUILD_NUMBER
+                   def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
+                   def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
 
-                def body = """<html>
-                           <body>
-                               <div style="border: 4px solid ${bannerColor}; padding: 10px;">
-                                   <h2>${jobName} - Build ${buildNumber}</h2>
-                                   <div style="background-color: ${bannerColor}; padding: 10px;">
-                                       <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
-                                   </div>
-                                   <p>Check the <a href="${env.BUILD_URL}">console output</a>.</p>
-                               </div>
-                           </body>
-                       </html>"""
+                   def body = """<html>
+                   <body>
+                       <div style="border: 4px solid ${bannerColor}; padding: 10px;">
+                           <h2>${jobName} - Build ${buildNumber}</h2>
+                           <div style="background-color: ${bannerColor}; padding: 10px;">
+                               <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                           </div>
+                           <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                       </div>
+                   </body>
+                   </html>"""
 
-                // Using mail instead of emailext
-                mail to: "${env.EMAIL_RECIPIENT}",
-                     subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
-                     body: body
-            }
-        }
-    }
-}
+                   emailext (
+                       subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
+                       body: body,
+                       to: 'soumayaabderahmen44@gmail.com',
+                       from: 'jenkins@example.com',
+                       replyTo: 'jenkins@example.com',
+                       mimeType: 'text/html',
+
+                   )
+               }
+           }
+       }
+   }
