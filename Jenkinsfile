@@ -102,13 +102,10 @@ pipeline {
                            </body>
                        </html>"""
 
-                // Using emailext for better HTML support
-                emailext (
-                    to: "${env.EMAIL_RECIPIENT}",
-                    subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
-                    body: body,
-                    mimeType: 'text/html',
-                )
+                // Using mail instead of emailext
+                mail to: "${env.EMAIL_RECIPIENT}",
+                     subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
+                     body: body
             }
         }
     }
