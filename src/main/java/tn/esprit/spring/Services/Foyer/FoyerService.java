@@ -13,7 +13,7 @@ import java.util.List;
 public class FoyerService implements IFoyerService {
     FoyerRepository repo;
     UniversiteRepository universiteRepository;
-    BlocRepository blocRepository;
+    //BlocRepository blocRepository;
 
     @Override
     public Foyer addOrUpdate(Foyer f) {
@@ -67,7 +67,7 @@ public class FoyerService implements IFoyerService {
         //On affecte le child au parent
         for (Bloc bloc : blocs) {
             bloc.setFoyer(foyer);
-            blocRepository.save(bloc);
+            //blocRepository.save(bloc);
         }
         u.setFoyer(f);
         return universiteRepository.save(u).getFoyer();
@@ -88,7 +88,7 @@ public class FoyerService implements IFoyerService {
         foyer = repo.save(foyer);
         for (Bloc b : blocs) {
             b.setFoyer(foyer);
-            blocRepository.save(b);
+            //blocRepository.save(b);
         }
         return foyer;
     }
