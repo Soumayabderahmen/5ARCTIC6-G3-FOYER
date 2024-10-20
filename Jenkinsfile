@@ -22,6 +22,20 @@ pipeline {
             }
         }
 
+        stage('Exécution des tests') {
+                    steps {
+                        echo 'Exécution des tests...'
+                        // Exécuter les tests JUnit
+                        sh 'mvn test'
+                    }
+                    post {
+                        always {
+                            // Publier les résultats des tests
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+        }
+        
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
@@ -29,6 +43,7 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
+
     }
 
     post {
