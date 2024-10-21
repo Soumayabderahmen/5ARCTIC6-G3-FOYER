@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'Jenkins-Agent'}
+    agent { label 'Jenkins-Agent' }
     tools {
         jdk 'Java17'
         maven 'Maven3'
@@ -9,24 +9,30 @@ pipeline {
     }
 
     stages {
-        stage("Cleanup Workspace"){
-                steps{
-                cleanWs()
-                }
-        }
-        stage('Checkout') {
+        // Stage 1: Cleanup Workspace
+        stage("Cleanup Workspace") {
             steps {
-                    echo "Checking out the repository..."
-                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER', branch: 'main', credentialsId: 'github-token'
-                }
+                cleanWs()
             }
         }
+
+        // Stage 2: Checkout
+        stage('Checkout') {
+            steps {
+                echo "Checking out the repository..."
+                git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER', branch: 'main', credentialsId: 'github-token'
+            }
+        }
+
+        // Stage 3: Nettoyage du projet
         stage('Nettoyage du projet') {
             steps {
                 echo 'Nettoyage du projet...'
                 sh 'mvn clean'
             }
         }
+
+        // Stage 4: Création du livrable
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
@@ -45,7 +51,7 @@ pipeline {
                                 <p>Build Status: ${BUILD_STATUS}</p>
                                 <p>Build Number: ${BUILD_NUMBER}</p>
                                 <p>Check the <a href="${BUILD_URL}">Console Output</a>.</p>
-                            <body>
+                            </body>
                          </html>''',
                 to:'mouhanedakermi@gmail.com',
                 from:'jenkins@example.com',
