@@ -5,7 +5,7 @@ pipeline {
         maven 'Maven3'
     }
     environment {
-        GITHUB_CREDENTIALS_ID = 'soumaya_github'
+        GITHUB_CREDENTIALS_ID = 'github-token'
     }
 
     stages {
