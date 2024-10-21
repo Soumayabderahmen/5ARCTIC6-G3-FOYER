@@ -1,16 +1,26 @@
 pipeline {
-    agent any
-
+    agent { label 'Jenkins-Agent'}
+    tools {
+        jdk 'Java17'
+        maven 'Maven3'
+    }
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
     }
 
     stages {
+        stage("Cleanup Workspace"){
+                steps{
+                cleanWs()
+                }
+        }
+    }
+
+    stages {
         stage('Checkout') {
             steps {
-                script {
                     echo "Checking out the repository..."
-                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: 'main', credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
+                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER', branch: 'main', credentialsId: 'github-token'
                 }
             }
         }
@@ -32,11 +42,21 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'La construction a réussi, le livrable est disponible dans le dossier target.'
-        }
-        failure {
-            echo 'La construction a échoué. Vérifiez les logs pour plus de détails.'
+        always {
+        emailext (
+            subject: "Pipeline Status: ${BUILD_NUMBER}",
+            body: '''<html>
+                        <body>
+                            <p>Build Status: ${BUILD_STATUS}</p>
+                            <p>Build Number: ${BUILD_NUMBER}</p>
+                            <p>Check the <a href="${BUILD_URL}">Console Output</a>.</p>
+                        <body>
+                     </html>'''
+            to:'mouhanedakermi@gmail.com',
+            from:'jenkins@example.com',
+            replyTo:'jenkins@example.com',
+            mimeType: 'text/html'
+        )
         }
     }
 }
