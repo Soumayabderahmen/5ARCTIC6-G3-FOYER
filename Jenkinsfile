@@ -8,6 +8,7 @@ pipeline {
         GITHUB_CREDENTIALS_ID = 'github-token'
         DOCKER_USER = 'mouhanedakermi'
         DOCKER_PASS = 'dockerhub'
+        IMAGE_NAME = 'mouhanedakermi/foyer'
         RELEASE = 'v1.0.0'
     }
 
@@ -48,7 +49,7 @@ pipeline {
                 script {
                     echo 'Building the image'
                     docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build ("mouhanedakermi/foyer",'.')
+                        docker_image = docker.build ("${IMAGE_NAME}")
                     }
                     echo 'Pushing image to DockerHub'
                     docker.withRegistry('',DOCKER_PASS) {
