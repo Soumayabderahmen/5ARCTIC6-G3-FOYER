@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - backend-network
+
+  backend:
+    image: mohamedns/springboot-foyer:1.1
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=cloudwaves
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    ports:
+      - 8081:8081
+    depends_on:
+      - mysql
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+
+volumes:
+  mysql-data:
