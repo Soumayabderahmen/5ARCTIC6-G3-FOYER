@@ -6,6 +6,9 @@ pipeline {
     }
     environment {
         GITHUB_CREDENTIALS_ID = 'github-token'
+        DOCKER_USER = 'mouhanedakermi'
+        DOCKER_PASS = 'dockerhub'
+        RELEASE = 'v1.0.0'
     }
 
     stages {
@@ -38,6 +41,19 @@ pipeline {
                 echo 'Création du livrable...'
                 // Construire le livrable sans phase de test
                 sh 'mvn package -DskipTests'
+            }
+        }
+        stage('Building & Pushing Docker Image') {
+            steps {
+                echo 'Building the image'
+                docker.withRegistry('',DOCKER_PASS) {
+                    docker_image = docker.build "mouhanedakermi/foyer"
+                }
+                echo 'Pushing image to DockerHub'
+                docker.withRegistry('',DOCKER_PASS) {
+                    docker_image.push("${RELEASE}-${BUILD_NUMBER}")
+                    docker_image.push('latest')
+                }
             }
         }
     }
