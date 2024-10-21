@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_CREDENTIALS_ID = 'githubT'
+        GITHUB_CREDENTIALS_ID = 'GitToken'
     }
 
     stages {
