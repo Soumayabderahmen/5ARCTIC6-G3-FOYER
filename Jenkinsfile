@@ -14,7 +14,6 @@ pipeline {
                 cleanWs()
                 }
         }
-    stages {
         stage('Checkout') {
             steps {
                     echo "Checking out the repository..."
@@ -22,14 +21,12 @@ pipeline {
                 }
             }
         }
-
         stage('Nettoyage du projet') {
             steps {
                 echo 'Nettoyage du projet...'
                 sh 'mvn clean'
             }
         }
-
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
