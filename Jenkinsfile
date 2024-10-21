@@ -48,7 +48,7 @@ pipeline {
                 script {
                     echo 'Building the image'
                     docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "mouhanedakermi/foyer"
+                        docker_image = docker.build ("mouhanedakermi/foyer",'.')
                     }
                     echo 'Pushing image to DockerHub'
                     docker.withRegistry('',DOCKER_PASS) {
