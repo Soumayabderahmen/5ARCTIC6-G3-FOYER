@@ -45,14 +45,16 @@ pipeline {
         }
         stage('Building & Pushing Docker Image') {
             steps {
-                echo 'Building the image'
-                docker.withRegistry('',DOCKER_PASS) {
-                    docker_image = docker.build "mouhanedakermi/foyer"
-                }
-                echo 'Pushing image to DockerHub'
-                docker.withRegistry('',DOCKER_PASS) {
-                    docker_image.push("${RELEASE}-${BUILD_NUMBER}")
-                    docker_image.push('latest')
+                script {
+                    echo 'Building the image'
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "mouhanedakermi/foyer"
+                    }
+                    echo 'Pushing image to DockerHub'
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image.push("${RELEASE}-${BUILD_NUMBER}")
+                        docker_image.push('latest')
+                    }
                 }
             }
         }
