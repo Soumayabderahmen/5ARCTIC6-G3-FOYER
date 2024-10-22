@@ -6,10 +6,7 @@ pipeline {
     }
     environment {
         GITHUB_CREDENTIALS_ID = 'github-token'
-        DOCKER_USER = 'mouhanedakermi'
-        DOCKER_PASS = 'dockerhub'
-        IMAGE_NAME = 'mouhanedakermi/foyer'
-        RELEASE = 'v1.0.0'
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub'
     }
 
     stages {
@@ -44,17 +41,16 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
-        stage('Building & Pushing Docker Image') {
+        stage ('Building docker image') {
             steps {
-                script {
-                    echo 'Building the image'
-                    docker.withRegistry('',DOCKER_PASS) {
-                        sh "docker build -t mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER}"
-                    }
-                    echo 'Pushing image to DockerHub'
-                    docker.withRegistry('',DOCKER_PASS) {
-                        sh "docker push mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER}"
-                    }
+                sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
+            }
+        }
+        stage ('Pushing image to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${env.DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    sh 'docker push mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0'
                 }
             }
         }
