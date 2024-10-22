@@ -49,7 +49,7 @@ pipeline {
                 script {
                     echo 'Building the image'
                     docker.withRegistry('',DOCKER_PASS) {
-                        sh "docker build -t mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER}"
+                        sh "docker build -t mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER} ."
                     }
                     echo 'Pushing image to DockerHub'
                     docker.withRegistry('',DOCKER_PASS) {
