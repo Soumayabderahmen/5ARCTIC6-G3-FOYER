@@ -1,7 +1,7 @@
 version: "3"
 services:
   springboot-app:
-    image: mohamedns/springboot-foyer:1.3
+    image: mohamedns/springboot-foyer:1.5
     ports:
       - 8081:8081
     networks:
