@@ -37,7 +37,7 @@ pipeline {
         stage ('Building docker image') {
             steps {
                 dir('5ARCTIC6-G3-FOYER') {
-                sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
+                sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 -f /home/mouhaned/workspace/DevOps-project/5ARCTIC6-G3-FOYER/Dockerfile .'
                 }
             }
         }
