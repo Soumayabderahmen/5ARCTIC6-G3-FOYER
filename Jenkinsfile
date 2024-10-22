@@ -10,14 +10,7 @@ pipeline {
     }
 
     stages {
-        // Stage 1: Cleanup Workspace
-        stage("Cleanup Workspace") {
-            steps {
-                cleanWs()
-            }
-        }
-
-        // Stage 2: Checkout
+        // Stage 1: Checkout
         stage('Checkout') {
             steps {
                 echo "Checking out the repository..."
@@ -25,7 +18,7 @@ pipeline {
             }
         }
 
-        // Stage 3: Nettoyage du projet
+        // Stage 2: Nettoyage du projet
         stage('Nettoyage du projet') {
             steps {
                 echo 'Nettoyage du projet...'
@@ -33,7 +26,7 @@ pipeline {
             }
         }
 
-        // Stage 4: Création du livrable
+        // Stage 3: Création du livrable
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
