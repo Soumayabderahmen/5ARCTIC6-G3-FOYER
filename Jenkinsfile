@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Checking out the repository..."
-                git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER', branch: 'MouhanedAkermi-5ARCTIC6', credentialsId: 'github-token'
+                git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER', branch: 'MouhanedAkermi-5ARCTIC6-G3', credentialsId: 'github-token'
             }
         }
 
