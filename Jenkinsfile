@@ -49,12 +49,11 @@ pipeline {
                 script {
                     echo 'Building the image'
                     docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build ("${IMAGE_NAME}")
+                        sh "docker build -t mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER}"
                     }
                     echo 'Pushing image to DockerHub'
                     docker.withRegistry('',DOCKER_PASS) {
-                        docker_image.push("${RELEASE}-${BUILD_NUMBER}")
-                        docker_image.push('latest')
+                        sh "docker push mouhanedakermi/foyer:${RELEASE}-${BUILD_NUMBER}"
                     }
                 }
             }
