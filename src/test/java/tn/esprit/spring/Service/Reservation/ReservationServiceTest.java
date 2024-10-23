@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.spring.DAO.Entities.*;
 import tn.esprit.spring.DAO.Repositories.ChambreRepository;
 import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
@@ -230,6 +232,7 @@ class ReservationServiceTest {
         verify(chambreRepository).findByNumeroChambre(numChambre);
         verify(etudiantRepository).findByCin(cin);
         verify(repo, never()).save(any(Reservation.class));
+
     }
 
     @Test
@@ -270,12 +273,10 @@ class ReservationServiceTest {
         when(chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(anyLong(), any(LocalDate.class), any(LocalDate.class))).thenReturn(3);
 
         reservationService.ajouterReservationEtAssignerAChambreEtAEtudiant(numChambre, cin);
-
         verify(chambreRepository).findByNumeroChambre(numChambre);
         verify(etudiantRepository).findByCin(cin);
         verify(repo, never()).save(any(Reservation.class));
     }
-
 
     @Test
     void testAjouterReservationEtudiantNotFound() {

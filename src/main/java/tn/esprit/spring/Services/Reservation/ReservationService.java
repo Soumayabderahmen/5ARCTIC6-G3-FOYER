@@ -80,14 +80,6 @@ public class ReservationService implements IReservationService {
         }
         // Fin "récuperer l'année universitaire actuelle"
         Reservation res = new Reservation();
-        if (res != null) {
-            // You can also add additional checks for specific properties
-            if (res.getIdReservation() == null || res.getEtudiants().isEmpty()) {
-                // Handle the case where the reservation is not fully initialized
-                log.warn("Reservation object is not properly initialized.");
-                return null; // or throw an exception, or handle as needed
-            }
-        }
         Chambre c = chambreRepository.findByNumeroChambre(numChambre);
         if (c == null) {
             log.warn("Chambre not found for numeroChambre: {}", numChambre);
