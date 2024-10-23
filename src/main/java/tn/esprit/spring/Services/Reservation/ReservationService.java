@@ -14,6 +14,7 @@ import tn.esprit.spring.DAO.Repositories.ReservationRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -25,6 +26,9 @@ public class ReservationService implements IReservationService {
 
     @Override
     public Reservation addOrUpdate(Reservation r) {
+        if (r == null) {
+            throw new IllegalArgumentException("Reservation cannot be null");
+        }
         return repo.save(r);
     }
 
@@ -35,16 +39,25 @@ public class ReservationService implements IReservationService {
 
     @Override
     public Reservation findById(String id) {
+        if (id == null || !id.matches("\\d+")) {
+            throw new IllegalArgumentException("Reservation id cannot be null");
+        }
         return repo.findById(id).get();
     }
 
     @Override
     public void deleteById(String id) {
+        if (id == null || !id.matches("\\d+")) {
+            throw new IllegalArgumentException("Can't delete a null or invalid id");
+        }
         repo.deleteById(id);
     }
 
     @Override
     public void delete(Reservation r) {
+        if (r == null) {
+            throw new IllegalArgumentException("Can't delete a non existant reservation");
+        }
         repo.delete(r);
     }
 
@@ -67,8 +80,24 @@ public class ReservationService implements IReservationService {
         }
         // Fin "récuperer l'année universitaire actuelle"
         Reservation res = new Reservation();
+        if (res != null) {
+            // You can also add additional checks for specific properties
+            if (res.getIdReservation() == null || res.getEtudiants().isEmpty()) {
+                // Handle the case where the reservation is not fully initialized
+                log.warn("Reservation object is not properly initialized.");
+                return null; // or throw an exception, or handle as needed
+            }
+        }
         Chambre c = chambreRepository.findByNumeroChambre(numChambre);
+        if (c == null) {
+            log.warn("Chambre not found for numeroChambre: {}", numChambre);
+            return null; // Return early if chambre is not found
+        }
         Etudiant e = etudiantRepository.findByCin(cin);
+        if (e == null) {
+            log.warn("Etudiant not found for cin: {}", cin);
+            return null; // Return early if etudiant is not found
+        }
         boolean ajout = false;
         int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
         //int numRes = chambreRepository.listerReservationPourUneChambre(c.getIdChambre(), dateDebutAU, dateFinAU);
@@ -113,13 +142,25 @@ public class ReservationService implements IReservationService {
 
     @Override
     public long getReservationParAnneeUniversitaire(LocalDate debutAnnee, LocalDate finAnnee) {
+        if (debutAnnee.isAfter(finAnnee)) {
+            throw new IllegalArgumentException("Debut annee doit etre avant fin annee");
+        }
         return repo.countByAnneeUniversitaireBetween(debutAnnee, finAnnee);
     }
 
     @Override
     public String annulerReservation(long cinEtudiant) {
+        if (cinEtudiant <= 0) {
+            return "L'ID de l'étudiant est invalide.";
+        }
         Reservation r = repo.findByEtudiantsCinAndEstValide(cinEtudiant, true);
+        if (r == null) {
+            return "Aucune réservation trouvée pour l'étudiant.";
+        }
         Chambre c = chambreRepository.findByReservationsIdReservation(r.getIdReservation());
+        if (c == null) {
+            return "Aucune chambre associée à la réservation.";
+        }
         c.getReservations().remove(r);
         chambreRepository.save(c);
         repo.delete(r);
@@ -132,30 +173,38 @@ public class ReservationService implements IReservationService {
         Chambre c = chambreRepository.findById(idChambre).get();
         // Parent: Chambre , Child: Reservation
         // On affecte le child au parent
-        c.getReservations().add(r);
-        chambreRepository.save(c);
-    }
-
-    @Override
-    public void annulerReservations() {
-        // Début "récuperer l'année universitaire actuelle"
-        LocalDate dateDebutAU;
-        LocalDate dateFinAU;
-        int numReservation;
-        int year = LocalDate.now().getYear() % 100;
-        if (LocalDate.now().getMonthValue() <= 7) {
-            dateDebutAU = LocalDate.of(Integer.parseInt("20" + (year - 1)), 9, 15);
-            dateFinAU = LocalDate.of(Integer.parseInt("20" + year), 6, 30);
-        } else {
-            dateDebutAU = LocalDate.of(Integer.parseInt("20" + year), 9, 15);
-            dateFinAU = LocalDate.of(Integer.parseInt("20" + (year + 1)), 6, 30);
+        boolean alreadyAssigned = false;
+        for (Reservation existingReservation : c.getReservations()) {
+            if (existingReservation.getIdReservation().equals(r.getIdReservation())) {
+                alreadyAssigned = true; // Reservation is already assigned
+                break;
+            }
         }
-        // Fin "récuperer l'année universitaire actuelle"
-        for (Reservation reservation : repo.findByEstValideAndAnneeUniversitaireBetween(true, dateDebutAU, dateFinAU)) {
-            reservation.setEstValide(false);
-            repo.save(reservation);
-            log.info("La reservation "+ reservation.getIdReservation()+" est annulée automatiquement");
+        if (!alreadyAssigned) {
+            c.getReservations().add(r);
+            chambreRepository.save(c);
         }
     }
 
+        @Override
+        public void annulerReservations () {
+            // Début "récuperer l'année universitaire actuelle"
+            LocalDate dateDebutAU;
+            LocalDate dateFinAU;
+            int numReservation;
+            int year = LocalDate.now().getYear() % 100;
+            if (LocalDate.now().getMonthValue() <= 7) {
+                dateDebutAU = LocalDate.of(Integer.parseInt("20" + (year - 1)), 9, 15);
+                dateFinAU = LocalDate.of(Integer.parseInt("20" + year), 6, 30);
+            } else {
+                dateDebutAU = LocalDate.of(Integer.parseInt("20" + year), 9, 15);
+                dateFinAU = LocalDate.of(Integer.parseInt("20" + (year + 1)), 6, 30);
+            }
+            // Fin "récuperer l'année universitaire actuelle"
+            for (Reservation reservation : repo.findByEstValideAndAnneeUniversitaireBetween(true, dateDebutAU, dateFinAU)) {
+                reservation.setEstValide(false);
+                repo.save(reservation);
+                log.info("La reservation " + reservation.getIdReservation() + " est annulée automatiquement");
+            }
+        }
 }

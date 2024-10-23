@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "T_RESERVATION")
@@ -28,3 +29,4 @@ public class Reservation implements Serializable {
     List<Etudiant> etudiants = new ArrayList<>();
 
 }
+

@@ -43,11 +43,23 @@ public class ReservationRestController {
 
     @PostMapping("ajouterReservationEtAssignerAChambreEtAEtudiant")
     Reservation ajouterReservationEtAssignerAChambreEtAEtudiant(@RequestParam Long numChambre, @RequestParam long cin) {
+        if (numChambre == null || numChambre <= 0) {
+            throw new IllegalArgumentException("Invalid num Chambre: must be positive");
+        }
+        if (cin <= 0) {
+            throw new IllegalArgumentException("CIN must be a positive number");
+        }
         return service.ajouterReservationEtAssignerAChambreEtAEtudiant(numChambre, cin);
     }
 
     @GetMapping("getReservationParAnneeUniversitaire")
     long getReservationParAnneeUniversitaire(@RequestParam LocalDate debutAnnee, @RequestParam LocalDate finAnnee) {
+        if (debutAnnee == null || finAnnee == null) {
+            throw new IllegalArgumentException("Dates cannot be null");
+        }
+        if (debutAnnee.isAfter(finAnnee)) {
+            throw new IllegalArgumentException("Start date cannot be after end date");
+        }
         return service.getReservationParAnneeUniversitaire(debutAnnee, finAnnee);
     }
 

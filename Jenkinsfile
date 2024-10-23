@@ -30,10 +30,19 @@ pipeline {
         stage('Création du livrable') {
             steps {
                 echo 'Création du livrable...'
-                // Construire le livrable sans phase de test
-                sh 'mvn package -DskipTests'
+                sh 'mvn package'
             }
         }
+
+        stage('Unit Tests') {
+                    steps {
+                        echo 'Running unit  tests...'
+                        withMaven(maven: 'Maven') {
+                            sh 'mvn test'
+                        }
+                    }
+                }
+
         stage ('Building docker image') {
             steps {
                 sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
