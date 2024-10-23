@@ -37,7 +37,7 @@ pipeline {
         stage('Unit Tests') {
                     steps {
                         echo 'Running unit  tests...'
-                        withMaven(maven: 'Maven') {
+                        withMaven(maven: 'Maven3') {
                             sh 'mvn test'
                         }
                     }
