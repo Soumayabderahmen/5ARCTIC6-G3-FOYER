@@ -48,17 +48,17 @@ pipeline {
                 }
             }
         }
-         /*stage('Code Quality Check via SonarQube') {
-                    steps {
-                        script {
-                            // SonarQube analysis
-                            withSonarQubeEnv('SonarQube') {
-                                sh './mvnw sonar:sonar'
-                            }
-                        }
-                    }
-                }
-
+         stage('Code Quality Check via SonarQube') {
+    steps {
+        script {
+            // SonarQube analysis
+            withSonarQubeEnv('SonarQube') {
+                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=5ARCTIC6_FOYER_G3 -Dsonar.projectName="5ARCTIC6_FOYER_G3" -Dsonar.host.url=http://192.168.56.10:9000'
+            }
+        }
+    }
+}
+/*
                 stage('Publish to Nexus') {
                     steps {
                         script {
