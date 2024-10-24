@@ -28,10 +28,9 @@ import org.springframework.stereotype.Component;
     public Object profile(ProceedingJoinPoint pjp) throws Throwable
     {
 <span class="nc" id="L30">        long start = System.currentTimeMillis();</span>
-<span class="nc" id="L31">        Object obj = pjp.proceed();</span>
-<span class="nc" id="L32">        long elapsedTime = System.currentTimeMillis() - start;</span>
-<span class="nc" id="L33">        log.info(&quot;Method execution time: &quot; + elapsedTime + &quot; milliseconds.&quot;);</span>
-<span class="nc" id="L34">        return null;</span>
+<span class="nc" id="L31">        long elapsedTime = System.currentTimeMillis() - start;</span>
+<span class="nc" id="L32">        log.info(&quot;Method execution time: &quot; + elapsedTime + &quot; milliseconds.&quot;);</span>
+<span class="nc" id="L33">        return null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

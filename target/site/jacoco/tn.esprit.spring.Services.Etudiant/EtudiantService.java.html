@@ -8,7 +8,7 @@ import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+<span class="fc" id="L11">@AllArgsConstructor</span>
 public class EtudiantService implements IEtudiantService {
     EtudiantRepository repo;
 
@@ -24,17 +24,18 @@ public class EtudiantService implements IEtudiantService {
 
     @Override
     public Etudiant findById(long id) {
-<span class="fc" id="L27">        return repo.findById(id).get();</span>
+<span class="fc" id="L27">        return repo.findById(id)</span>
+<span class="pc" id="L28">                .orElseThrow(() -&gt; new RuntimeException(&quot;Etudiant not found with id: &quot; + id));</span>
     }
 
     @Override
     public void deleteById(long id) {
-<span class="fc" id="L32">        repo.deleteById(id);</span>
-<span class="fc" id="L33">    }</span>
+<span class="fc" id="L33">        repo.deleteById(id);</span>
+<span class="fc" id="L34">    }</span>
 
     @Override
     public void delete(Etudiant e) {
-<span class="fc" id="L37">        repo.delete(e);</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L38">        repo.delete(e);</span>
+<span class="fc" id="L39">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

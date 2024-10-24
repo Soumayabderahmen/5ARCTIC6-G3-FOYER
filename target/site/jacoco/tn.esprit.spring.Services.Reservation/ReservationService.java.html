@@ -3,50 +3,45 @@
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-//import tn.esprit.spring.DAO.Entities.Chambre;
 import tn.esprit.spring.DAO.Entities.Etudiant;
-//import tn.esprit.spring.DAO.Entities.Foyer;
 import tn.esprit.spring.DAO.Entities.Reservation;
-//import tn.esprit.spring.DAO.Repositories.ChambreRepository;
 import tn.esprit.spring.DAO.Repositories.EtudiantRepository;
-//import tn.esprit.spring.DAO.Repositories.FoyerRepository;
 import tn.esprit.spring.DAO.Repositories.ReservationRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-<span class="nc" id="L20">@Slf4j</span>
+<span class="nc" id="L15">@AllArgsConstructor</span>
+<span class="nc" id="L16">@Slf4j</span>
 public class ReservationService implements IReservationService {
     ReservationRepository repo;
-    //ChambreRepository chambreRepository;
     EtudiantRepository etudiantRepository;
 
     @Override
     public Reservation addOrUpdate(Reservation r) {
-<span class="nc" id="L28">        return repo.save(r);</span>
+<span class="nc" id="L23">        return repo.save(r);</span>
     }
 
     @Override
     public List&lt;Reservation&gt; findAll() {
-<span class="nc" id="L33">        return repo.findAll();</span>
+<span class="nc" id="L28">        return repo.findAll();</span>
     }
 
     @Override
     public Reservation findById(String id) {
-<span class="nc" id="L38">        return repo.findById(id).get();</span>
+<span class="nc" id="L33">        return repo.findById(id).get();</span>
     }
 
     @Override
     public void deleteById(String id) {
-<span class="nc" id="L43">        repo.deleteById(id);</span>
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L38">        repo.deleteById(id);</span>
+<span class="nc" id="L39">    }</span>
 
     @Override
     public void delete(Reservation r) {
-<span class="nc" id="L48">        repo.delete(r);</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L43">        repo.delete(r);</span>
+<span class="nc" id="L44">    }</span>
 
     @Override
     public Reservation ajouterReservationEtAssignerAChambreEtAEtudiant(Long numChambre, long cin) {
@@ -57,20 +52,20 @@ public class ReservationService implements IReservationService {
         LocalDate dateDebutAU;
         LocalDate dateFinAU;
         int numReservation;
-<span class="nc" id="L60">        int year = LocalDate.now().getYear() % 100;</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
-<span class="nc" id="L62">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
-<span class="nc" id="L63">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
-<span class="nc" id="L64">        } else {</span>
-<span class="nc" id="L65">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
-<span class="nc" id="L66">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
+<span class="nc" id="L55">        int year = LocalDate.now().getYear() % 100;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
+<span class="nc" id="L57">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
+<span class="nc" id="L58">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
+        } else {
+<span class="nc" id="L60">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
+<span class="nc" id="L61">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
         }
         // Fin &quot;récuperer l'année universitaire actuelle&quot;
-<span class="nc" id="L69">        Reservation res = new Reservation();</span>
+<span class="nc" id="L64">        Reservation res = new Reservation();</span>
      //   Chambre c = chambreRepository.findByNumeroChambre(numChambre);
-<span class="nc" id="L71">        Etudiant e = etudiantRepository.findByCin(cin);</span>
-<span class="nc" id="L72">        boolean ajout = false;</span>
-<span class="nc" id="L73">        return res;</span>
+<span class="nc" id="L66">        Etudiant e = etudiantRepository.findByCin(cin);</span>
+<span class="nc" id="L67">        boolean ajout = false;</span>
+<span class="nc" id="L68">        return res;</span>
     }
        // int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
         //int numRes = chambreRepository.listerReservationPourUneChambre(c.getIdChambre(), dateDebutAU, dateFinAU);
@@ -115,28 +110,28 @@ public class ReservationService implements IReservationService {
 */
     @Override
     public long getReservationParAnneeUniversitaire(LocalDate debutAnnee, LocalDate finAnnee) {
-<span class="nc" id="L118">        return repo.countByAnneeUniversitaireBetween(debutAnnee, finAnnee);</span>
+<span class="nc" id="L113">        return repo.countByAnneeUniversitaireBetween(debutAnnee, finAnnee);</span>
     }
 
     @Override
     public String annulerReservation(long cinEtudiant) {
-<span class="nc" id="L123">        Reservation r = repo.findByEtudiantsCinAndEstValide(cinEtudiant, true);</span>
+<span class="nc" id="L118">        Reservation r = repo.findByEtudiantsCinAndEstValide(cinEtudiant, true);</span>
         //Chambre c = chambreRepository.findByReservationsIdReservation(r.getIdReservation());
         //c.getReservations().remove(r);
         //chambreRepository.save(c);
-<span class="nc" id="L127">        repo.delete(r);</span>
-<span class="nc" id="L128">        return &quot;La réservation &quot; + r.getIdReservation() + &quot; est annulée avec succés&quot;;</span>
+<span class="nc" id="L122">        repo.delete(r);</span>
+<span class="nc" id="L123">        return &quot;La réservation &quot; + r.getIdReservation() + &quot; est annulée avec succés&quot;;</span>
     }
 
     @Override
     public void affectReservationAChambre(String idRes, long idChambre) {
-<span class="nc" id="L133">        Reservation r = repo.findById(idRes).get();</span>
+<span class="nc" id="L128">        Reservation r = repo.findById(idRes).get();</span>
         //Chambre c = chambreRepository.findById(idChambre).get();
         // Parent: Chambre , Child: Reservation
         // On affecte le child au parent
         //c.getReservations().add(r);
         //chambreRepository.save(c);
-<span class="nc" id="L139">    }</span>
+<span class="nc" id="L134">    }</span>
 
     @Override
     public void annulerReservations() {
@@ -144,21 +139,21 @@ public class ReservationService implements IReservationService {
         LocalDate dateDebutAU;
         LocalDate dateFinAU;
         int numReservation;
-<span class="nc" id="L147">        int year = LocalDate.now().getYear() % 100;</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
-<span class="nc" id="L149">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
-<span class="nc" id="L150">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
-<span class="nc" id="L151">        } else {</span>
-<span class="nc" id="L152">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
-<span class="nc" id="L153">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
+<span class="nc" id="L142">        int year = LocalDate.now().getYear() % 100;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (LocalDate.now().getMonthValue() &lt;= 7) {</span>
+<span class="nc" id="L144">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year - 1)), 9, 15);</span>
+<span class="nc" id="L145">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 6, 30);</span>
+        } else {
+<span class="nc" id="L147">            dateDebutAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + year), 9, 15);</span>
+<span class="nc" id="L148">            dateFinAU = LocalDate.of(Integer.parseInt(&quot;20&quot; + (year + 1)), 6, 30);</span>
         }
         // Fin &quot;récuperer l'année universitaire actuelle&quot;
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        for (Reservation reservation : repo.findByEstValideAndAnneeUniversitaireBetween(true, dateDebutAU, dateFinAU)) {</span>
-<span class="nc" id="L157">            reservation.setEstValide(false);</span>
-<span class="nc" id="L158">            repo.save(reservation);</span>
-<span class="nc" id="L159">            log.info(&quot;La reservation &quot;+ reservation.getIdReservation()+&quot; est annulée automatiquement&quot;);</span>
-        }
-<span class="nc" id="L161">    }</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (Reservation reservation : repo.findByEstValideAndAnneeUniversitaireBetween(true, dateDebutAU, dateFinAU)) {</span>
+<span class="nc" id="L152">            reservation.setEstValide(false);</span>
+<span class="nc" id="L153">            repo.save(reservation);</span>
+<span class="nc" id="L154">            log.info(&quot;La reservation &quot;+ reservation.getIdReservation()+&quot; est annulée automatiquement&quot;);</span>
+<span class="nc" id="L155">        }</span>
+<span class="nc" id="L156">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

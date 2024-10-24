@@ -2,42 +2,40 @@
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-//import tn.esprit.spring.DAO.Entities.Chambre;
 import tn.esprit.spring.DAO.Entities.Etudiant;
-//import tn.esprit.spring.Services.Chambre.IChambreService;
 import tn.esprit.spring.Services.Etudiant.IEtudiantService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(&quot;etudiant&quot;)
-@AllArgsConstructor
+<span class="fc" id="L12">@AllArgsConstructor</span>
 public class EtudiantRestController {
     IEtudiantService service;
 
     @PostMapping(&quot;addOrUpdate&quot;)
     Etudiant addOrUpdate(@RequestBody Etudiant e) {
-<span class="fc" id="L20">        return service.addOrUpdate(e);</span>
+<span class="fc" id="L18">        return service.addOrUpdate(e);</span>
     }
 
     @GetMapping(&quot;findAll&quot;)
     List&lt;Etudiant&gt; findAll() {
-<span class="fc" id="L25">        return service.findAll();</span>
+<span class="fc" id="L23">        return service.findAll();</span>
     }
 
     @GetMapping(&quot;findById&quot;)
     Etudiant findById(@RequestParam long id) {
-<span class="fc" id="L30">        return service.findById(id);</span>
+<span class="fc" id="L28">        return service.findById(id);</span>
     }
 
     @DeleteMapping(&quot;delete&quot;)
     void delete(@RequestBody Etudiant e) {
-<span class="fc" id="L35">        service.delete(e);</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L33">        service.delete(e);</span>
+<span class="fc" id="L34">    }</span>
 
     @DeleteMapping(&quot;deleteById&quot;)
     void deleteById(@RequestParam long id) {
-<span class="fc" id="L40">        service.deleteById(id);</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L38">        service.deleteById(id);</span>
+<span class="fc" id="L39">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

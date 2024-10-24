@@ -25,7 +25,7 @@ public class Reservation implements Serializable {
 <span class="nc" id="L25">    boolean estValide;</span>
 <span class="nc" id="L26">    @ManyToMany</span>
     @JsonIgnore
-<span class="nc" id="L28">    List&lt;Etudiant&gt; etudiants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L28">    private List&lt;Etudiant&gt; etudiants = new ArrayList&lt;&gt;();</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

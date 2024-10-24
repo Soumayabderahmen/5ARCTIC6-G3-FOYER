@@ -2,6 +2,7 @@ package tn.esprit.spring.RestControllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class EtudiantRestControllerTest {
+public class EtudiantRestControllerTest {
 
     @InjectMocks
     private EtudiantRestController controller;
@@ -29,7 +30,7 @@ class EtudiantRestControllerTest {
     }
 
     @Test
-     void testAddOrUpdate() {
+    public void testAddOrUpdate() {
         Etudiant etudiant = new Etudiant();
         when(service.addOrUpdate(any(Etudiant.class))).thenReturn(etudiant);
 
@@ -40,7 +41,7 @@ class EtudiantRestControllerTest {
     }
 
     @Test
-     void testFindAll() {
+    public void testFindAll() {
         Etudiant etudiant1 = new Etudiant();
         Etudiant etudiant2 = new Etudiant();
         List<Etudiant> etudiants = Arrays.asList(etudiant1, etudiant2);
@@ -53,7 +54,7 @@ class EtudiantRestControllerTest {
     }
 
     @Test
-     void testFindById() {
+    public void testFindById() {
         Etudiant etudiant = new Etudiant();
         when(service.findById(1L)).thenReturn(etudiant);
 
@@ -64,7 +65,7 @@ class EtudiantRestControllerTest {
     }
 
     @Test
-     void testDelete() {
+    public void testDelete() {
         Etudiant etudiant = new Etudiant();
         doNothing().when(service).delete(any(Etudiant.class));
 
@@ -74,7 +75,7 @@ class EtudiantRestControllerTest {
     }
 
     @Test
-     void testDeleteById() {
+    public void testDeleteById() {
         doNothing().when(service).deleteById(1L);
 
         controller.deleteById(1L);

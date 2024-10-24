@@ -27,7 +27,8 @@ public class Etudiant implements Serializable {
 <span class="nc" id="L27">    String ecole;</span>
 <span class="nc" id="L28">    LocalDate dateNaissance;</span>
 <span class="pc" id="L29">    @ManyToMany(mappedBy = &quot;etudiants&quot;)</span>
-<span class="nc" id="L30">    List&lt;Reservation&gt; reservations= new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L30"> private List&lt;Reservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+
 
 
 }
