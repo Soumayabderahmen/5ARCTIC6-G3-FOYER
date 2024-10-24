@@ -24,7 +24,8 @@ public class EtudiantService implements IEtudiantService {
 
     @Override
     public Etudiant findById(long id) {
-        return repo.findById(id).get();
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Etudiant not found with id: " + id));
     }
 
     @Override

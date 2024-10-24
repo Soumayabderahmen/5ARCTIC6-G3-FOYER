@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import tn.esprit.spring.DAO.Entities.Etudiant;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // Utiliser H2 en mémoire
 @ActiveProfiles("test") // Assurez-vous que votre application.properties a une configuration 'test' si nécessaire
 
-public class EtudiantServiceTestUnitaire {
+ class EtudiantServiceUnitTest {
     @Autowired
     private EtudiantService etudiantService;
 
@@ -38,10 +37,12 @@ public class EtudiantServiceTestUnitaire {
 
         Etudiant savedEtudiant = etudiantService.addOrUpdate(etudiant);
 
-        assertNotNull(savedEtudiant.getIdEtudiant()); // Assurez-vous que l'ID est généré
+        // Check that the ID is greater than 0, assuming IDs are generated from zero-based index
+        assertTrue(savedEtudiant.getIdEtudiant() > 0, "The student ID should be generated and valid.");
+
+        // Check the name as usual
         assertEquals("John", savedEtudiant.getNomEt());
     }
-
     @Test
     void test_findAll_ShouldReturnAllEtudiants() {
         Etudiant etudiant1 = new Etudiant();
