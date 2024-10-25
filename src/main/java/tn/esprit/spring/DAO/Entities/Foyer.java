@@ -24,5 +24,5 @@ public class Foyer implements Serializable {
     long capaciteFoyer;
 
     @OneToMany(mappedBy = "foyer")
-    List<Bloc> blocs= new ArrayList<>();
+   private List<Bloc> blocs= new ArrayList<>();
 }

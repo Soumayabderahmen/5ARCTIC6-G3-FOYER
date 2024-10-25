@@ -9,9 +9,10 @@ import tn.esprit.spring.DAO.Entities.TypeChambre;
 import tn.esprit.spring.DAO.Repositories.BlocRepository;
 import tn.esprit.spring.DAO.Repositories.ChambreRepository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,9 +33,13 @@ public class ChambreService implements IChambreService {
 
     @Override
     public Chambre findById(long id) {
-        return repo.findById(id).get();
+        Optional<Chambre> optionalChambre = repo.findById(id);
+        if (optionalChambre.isPresent()) {
+            return optionalChambre.get();
+        } else {
+            throw new NoSuchElementException("Chambre not found with id: " + id);
+        }
     }
-
     @Override
     public void deleteById(long id) {
         repo.deleteById(id);
@@ -75,14 +80,20 @@ public class ChambreService implements IChambreService {
     @Override
     public void pourcentageChambreParTypeChambre() {
         long totalChambre = repo.count();
-        double pSimple = (repo.countChambreByTypeC(TypeChambre.SIMPLE) * 100) / totalChambre;
-        double pDouble = (repo.countChambreByTypeC(TypeChambre.DOUBLE) * 100) / totalChambre;
-        double pTriple = (repo.countChambreByTypeC(TypeChambre.TRIPLE) * 100) / totalChambre;
-        log.info("Nombre total des chambre: " + totalChambre);
-        log.info("Le pourcentage des chambres pour le type SIMPLE est égale à " + pSimple);
-        log.info("Le pourcentage des chambres pour le type DOUBLE est égale à " + pDouble);
-        log.info("Le pourcentage des chambres pour le type TRIPLE est égale à " + pTriple);
+        if (totalChambre == 0) {
+            log.warn("Aucune chambre trouvée pour calculer les pourcentages.");
+            return;
+        }
 
+        double pSimple = ((double) repo.countChambreByTypeC(TypeChambre.SIMPLE) * 100) / totalChambre;
+        double pDouble = ((double) repo.countChambreByTypeC(TypeChambre.DOUBLE) * 100) / totalChambre;
+        double pTriple = ((double) repo.countChambreByTypeC(TypeChambre.TRIPLE) * 100) / totalChambre;
+
+        log.info("Nombre total des chambres : " + totalChambre);
+        log.info("Le pourcentage des chambres pour le type SIMPLE est égal à " + pSimple);
+        log.info("Le pourcentage des chambres pour le type DOUBLE est égal à " + pDouble);
+        log.info("Le pourcentage des chambres pour le type TRIPLE est égal à " + pTriple);
     }
+
 
 }

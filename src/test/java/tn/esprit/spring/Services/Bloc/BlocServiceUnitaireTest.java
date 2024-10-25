@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureMockMvc
-public class BlocServiceTestUnitaire {
+ class BlocServiceUnitaireTest {
 
     @Autowired
     private BlocRepository blocRepository;
@@ -38,7 +38,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testAddOrUpdate() {
+     void testAddOrUpdate() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -62,7 +62,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testFindAll() {
+     void testFindAll() {
         // Given
         Bloc bloc1 = new Bloc();
         bloc1.setNomBloc("Bloc A");
@@ -80,7 +80,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testFindById() {
+     void testFindById() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -95,7 +95,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testDeleteById() {
+     void testDeleteById() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -109,7 +109,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testAffecterChambresABloc() {
+     void testAffecterChambresABloc() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -134,7 +134,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testAffecterBlocAFoyer() {
+     void testAffecterBlocAFoyer() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -152,7 +152,7 @@ public class BlocServiceTestUnitaire {
     }
 
     @Test
-    public void testDelete() {
+     void testDelete() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");

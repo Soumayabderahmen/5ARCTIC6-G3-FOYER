@@ -7,6 +7,8 @@ import tn.esprit.spring.DAO.Repositories.BlocRepository;
 import tn.esprit.spring.DAO.Repositories.FoyerRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +28,12 @@ public class FoyerService implements IFoyerService {
 
     @Override
     public Foyer findById(long id) {
-        return repo.findById(id).get();
+        Optional<Foyer> optionalFoyer = repo.findById(id);
+        if (optionalFoyer.isPresent()) {
+            return optionalFoyer.get();
+        } else {
+            throw new NoSuchElementException("Foyer not found with id: " + id);
+        }
     }
 
     @Override

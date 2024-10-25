@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BlocServiceTest {
+ class BlocServiceTest {
 
     @InjectMocks
     private BlocService blocService;
@@ -56,7 +56,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testAddOrUpdate() {
+     void testAddOrUpdate() {
         // Mocking the behavior
         when(blocRepository.save(any(Bloc.class))).thenReturn(bloc);
         when(chambreRepository.save(any(Chambre.class))).thenReturn(chambre);
@@ -70,7 +70,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+     void testFindAll() {
         when(blocRepository.findAll()).thenReturn(Arrays.asList(bloc));
 
         List<Bloc> result = blocService.findAll();
@@ -80,7 +80,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testFindById() {
+     void testFindById() {
         when(blocRepository.findById(anyLong())).thenReturn(Optional.of(bloc));
 
         Bloc result = blocService.findById(1L);
@@ -90,7 +90,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+     void testDeleteById() {
         doNothing().when(blocRepository).deleteById(anyLong());
 
         blocService.deleteById(1L);
@@ -99,7 +99,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testAffecterChambresABloc() {
+     void testAffecterChambresABloc() {
         when(blocRepository.findByNomBloc(anyString())).thenReturn(bloc);
         when(chambreRepository.findByNumeroChambre(anyLong())).thenReturn(chambre);
         when(chambreRepository.save(any(Chambre.class))).thenReturn(chambre);
@@ -112,7 +112,7 @@ public class BlocServiceTest {
     }
 
     @Test
-    public void testAffecterBlocAFoyer() {
+     void testAffecterBlocAFoyer() {
         when(blocRepository.findByNomBloc(anyString())).thenReturn(bloc);
         when(foyerRepository.findByNomFoyer(anyString())).thenReturn(foyer);
         when(blocRepository.save(any(Bloc.class))).thenReturn(bloc);
