@@ -12,11 +12,9 @@ public interface IChambreService {
     void deleteById(long id);
     void delete(Chambre c);
     List<Chambre>  getChambresParNomBloc( String nomBloc);
-    long  nbChambreParTypeEtBloc(TypeChambre type, long idBloc);
-    List<Chambre>  getChambresNonReserveParNomFoyerEtTypeChambre( String nomFoyer,TypeChambre type);
     void listeChambresParBloc();
     void pourcentageChambreParTypeChambre();
-    void nbPlacesDisponibleParChambreAnneeEnCours();
+    long nbChambreParTypeEtBloc(TypeChambre type, long idBloc);
 
 
 

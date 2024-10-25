@@ -28,7 +28,5 @@ public class Chambre implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     Bloc bloc;
-    @OneToMany
-    List<Reservation> reservations= new ArrayList<>();
 
 }
