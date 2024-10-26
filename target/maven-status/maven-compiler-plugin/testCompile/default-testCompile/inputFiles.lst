@@ -1,4 +1,3 @@
-C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\config\SpringDocConfig.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\entities\Chambre.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\entities\Foyer.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\services\bloc\BlocServiceTest.java
@@ -7,15 +6,12 @@ C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\s
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\services\chambre\IChambreService.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\repositories\FoyerRepository.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\rest_controllers\ChambreRestController.java
-C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\schedular\Schedular.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\FoyerApplication.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\rest_controllers\BlocRestController.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\services\bloc\BlocServiceUnitaireTest.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\services\foyer\IFoyerService.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\rest_controllers\FoyerRestController.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\entities\Bloc.java
-C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\aop\FoyerAspect.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\repositories\ChambreRepository.java
-C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\schedular\Test.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\entities\TypeChambre.java
 C:\Users\rimbs\Desktop\Devops\5ARCTIC6-G3-FOYER\src\test\java\tn\esprit\spring\dao\repositories\BlocRepository.java
