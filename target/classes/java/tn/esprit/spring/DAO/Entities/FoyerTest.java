@@ -1,4 +1,4 @@
-package tn.esprit.spring.DAO.Entities;
+package tn.esprit.spring.dao.entities;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

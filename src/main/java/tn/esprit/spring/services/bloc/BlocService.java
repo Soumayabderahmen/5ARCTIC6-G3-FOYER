@@ -2,6 +2,7 @@ package tn.esprit.spring.services.bloc;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.Bloc;
 import tn.esprit.spring.dao.entities.Chambre;
 import tn.esprit.spring.dao.entities.Foyer;
@@ -31,17 +32,21 @@ public class BlocService implements IBlocService {
         }
         return b;
     }
-
+    @Transactional
     @Override
     public Bloc addOrUpdate(Bloc b) {
-        List<Chambre> chambres= b.getChambres();
-        b= repo.save(b);
-        for (Chambre chambre: chambres) {
+        // Sauvegarder le bloc
+        b = repo.save(b);
+
+        // Créer une nouvelle liste pour éviter les problèmes de modification
+        List<Chambre> chambres = new ArrayList<>(b.getChambres());
+        for (Chambre chambre : chambres) {
             chambre.setBloc(b);
             chambreRepository.save(chambre);
         }
         return b;
     }
+
 
     @Override
     public List<Bloc> findAll() {
@@ -64,14 +69,18 @@ public class BlocService implements IBlocService {
         repo.deleteById(id);
     }
 
+    @Transactional
     @Override
     public void delete(Bloc b) {
-        List<Chambre> chambres= b.getChambres();
-        for (Chambre chambre: chambres) {
+        List<Chambre> chambres = b.getChambres();
+        for (Chambre chambre : chambres) {
+            chambre.setBloc(null); // Définissez la relation avant de supprimer
             chambreRepository.delete(chambre);
         }
         repo.delete(b);
     }
+
+
 
     @Override
     public Bloc affecterChambresABloc(List<Long> numChambre, String nomBloc) {
