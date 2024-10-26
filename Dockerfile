@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
 
 # Expose le port 8080 pour que l'application soit accessible depuis l'extérieur du conteneur
-EXPOSE 8080
+EXPOSE 8081
 
 # Définit la commande d'entrée qui sera exécutée lorsque le conteneur sera lancé
 # Cela exécute l'application Java à partir du fichier app.jar
