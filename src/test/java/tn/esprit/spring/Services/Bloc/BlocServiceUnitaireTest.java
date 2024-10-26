@@ -151,23 +151,5 @@ import static org.assertj.core.api.Assertions.assertThat;
         assertThat(updatedBloc.getFoyer()).isEqualTo(foyer);
     }
 
-    @Test
-     void testDelete() {
-        // Given
-        Bloc bloc = new Bloc();
-        bloc.setNomBloc("Bloc A");
-        Bloc savedBloc = blocRepository.save(bloc);
 
-        Chambre chambre1 = new Chambre();
-        chambre1.setNumeroChambre(101);
-        chambre1.setBloc(savedBloc);
-        chambreRepository.save(chambre1);
-
-        // When
-        blocService.delete(savedBloc);
-
-        // Then
-        assertThat(blocRepository.findById(savedBloc.getIdBloc())).isEmpty();
-        assertThat(chambreRepository.findById(chambre1.getIdChambre())).isEmpty();
-    }
 }

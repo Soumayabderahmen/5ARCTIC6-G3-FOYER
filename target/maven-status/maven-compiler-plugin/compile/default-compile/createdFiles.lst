@@ -1,7 +1,6 @@
 tn\esprit\spring\RestControllers\BlocRestController.class
 tn\esprit\spring\DAO\Repositories\FoyerRepository.class
 tn\esprit\spring\Services\Bloc\BlocService.class
-tn\esprit\spring\Schedular\test.class
 tn\esprit\spring\DAO\Entities\Chambre$ChambreBuilder.class
 tn\esprit\spring\FoyerApplication.class
 tn\esprit\spring\AOP\FoyerAspect.class
@@ -20,5 +19,6 @@ tn\esprit\spring\DAO\Repositories\BlocRepository.class
 tn\esprit\spring\DAO\Repositories\ChambreRepository.class
 tn\esprit\spring\RestControllers\ChambreRestController.class
 tn\esprit\spring\DAO\Entities\Bloc.class
+tn\esprit\spring\Schedular\Test.class
 tn\esprit\spring\Services\Chambre\ChambreService.class
 tn\esprit\spring\Schedular\Schedular.class
