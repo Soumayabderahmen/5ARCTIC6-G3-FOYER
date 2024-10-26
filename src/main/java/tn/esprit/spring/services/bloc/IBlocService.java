@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface IBlocService {
     Bloc addOrUpdate(Bloc b);
-    Bloc addOrUpdate2(Bloc b);
 
     List<Bloc> findAll();
 

@@ -23,24 +23,12 @@ public class BlocService implements IBlocService {
     BlocRepository blocRepository;
     FoyerRepository foyerRepository;
 
-    @Override
-    public Bloc addOrUpdate2(Bloc b) { //Cascade
-        List<Chambre> chambres= b.getChambres();
-        for (Chambre c: chambres) {
-            c.setBloc(b);
-            chambreRepository.save(c);
-        }
-        return b;
-    }
-    @Transactional
+
     @Override
     public Bloc addOrUpdate(Bloc b) {
-        // Sauvegarder le bloc
-        b = repo.save(b);
-
-        // Créer une nouvelle liste pour éviter les problèmes de modification
-        List<Chambre> chambres = new ArrayList<>(b.getChambres());
-        for (Chambre chambre : chambres) {
+        List<Chambre> chambres= b.getChambres();
+        b= repo.save(b);
+        for (Chambre chambre: chambres) {
             chambre.setBloc(b);
             chambreRepository.save(chambre);
         }
@@ -69,12 +57,10 @@ public class BlocService implements IBlocService {
         repo.deleteById(id);
     }
 
-    @Transactional
     @Override
     public void delete(Bloc b) {
-        List<Chambre> chambres = b.getChambres();
-        for (Chambre chambre : chambres) {
-            chambre.setBloc(null); // Définissez la relation avant de supprimer
+        List<Chambre> chambres= b.getChambres();
+        for (Chambre chambre: chambres) {
             chambreRepository.delete(chambre);
         }
         repo.delete(b);

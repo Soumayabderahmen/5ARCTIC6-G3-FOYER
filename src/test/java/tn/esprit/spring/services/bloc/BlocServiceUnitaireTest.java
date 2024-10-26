@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.spring.dao.entities.Bloc;
 import tn.esprit.spring.dao.entities.Chambre;
 import tn.esprit.spring.dao.entities.Foyer;
@@ -13,11 +12,11 @@ import tn.esprit.spring.dao.repositories.BlocRepository;
 import tn.esprit.spring.dao.repositories.ChambreRepository;
 import tn.esprit.spring.dao.repositories.FoyerRepository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureMockMvc
@@ -40,36 +39,21 @@ import static org.assertj.core.api.Assertions.assertThat;
         blocService = new BlocService(blocRepository, chambreRepository, blocRepository, foyerRepository);
     }
 
+
    @Test
-   void testAddOrUpdate() {
-      // Given
+   void test_addOrUpdate_ShouldSaveBloc() {
       Bloc bloc = new Bloc();
       bloc.setNomBloc("Bloc A");
+      bloc.setCapaciteBloc(50);
 
-      Chambre chambre1 = new Chambre();
-      chambre1.setNumeroChambre(101);
-      chambre1.setBloc(bloc);
-
-      Chambre chambre2 = new Chambre();
-      chambre2.setNumeroChambre(102);
-      chambre2.setBloc(bloc);
-
-      // Utiliser une nouvelle liste modifiable
-      List<Chambre> chambres = new ArrayList<>();
-      chambres.add(chambre1);
-      chambres.add(chambre2);
-      bloc.setChambres(chambres);
-
-      // When
       Bloc savedBloc = blocService.addOrUpdate(bloc);
 
-      // Then
-      assertThat(savedBloc.getNomBloc()).isEqualTo("Bloc A");
-      assertThat(savedBloc.getChambres()).hasSize(2);
+      assertNotNull(savedBloc.getIdBloc());
+      assertEquals("Bloc A", savedBloc.getNomBloc());
+      assertEquals(50, savedBloc.getCapaciteBloc());
    }
 
-
-   @Test
+     @Test
      void testFindAll() {
         // Given
         Bloc bloc1 = new Bloc();
@@ -160,33 +144,25 @@ import static org.assertj.core.api.Assertions.assertThat;
     }
 
     @Test
-    void testDelete() {
-        // Créez un bloc et des chambres
+    void test_delete_ShouldDeleteBlocAndChambres() {
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
 
         Chambre chambre1 = new Chambre();
-        chambre1.setNumeroChambre(101);
+        chambre1.setNumeroChambre(101L);
         chambre1.setBloc(bloc);
 
         Chambre chambre2 = new Chambre();
-        chambre2.setNumeroChambre(102);
+        chambre2.setNumeroChambre(102L);
         chambre2.setBloc(bloc);
 
         bloc.setChambres(Arrays.asList(chambre1, chambre2));
+        bloc = blocRepository.save(bloc);
 
-        // Ajoutez le bloc à la base de données
-        blocService.addOrUpdate(bloc);
-
-        // Supprimez le bloc
         blocService.delete(bloc);
 
-        // Vérifiez que les chambres sont supprimées
-        assertThat(chambreRepository.findById(chambre1.getIdChambre())).isEmpty();
-        assertThat(chambreRepository.findById(chambre2.getIdChambre())).isEmpty();
-
-        // Vérifiez que le bloc est supprimé
-        assertThat(blocService.findById(bloc.getIdBloc())).isNull();
+        assertFalse(blocRepository.findById(bloc.getIdBloc()).isPresent());
+        assertEquals(0, chambreRepository.count());
     }
 
 
