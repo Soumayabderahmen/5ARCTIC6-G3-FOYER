@@ -3,8 +3,12 @@ package tn.esprit.spring.services.bloc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.Bloc;
 import tn.esprit.spring.dao.entities.Chambre;
 import tn.esprit.spring.dao.entities.Foyer;
@@ -18,10 +22,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureMockMvc
 
- class BlocServiceUnitaireTest {
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // Utiliser H2 en mémoire
+@ActiveProfiles("test") // Assurez-vous que votre application-test.properties a une configuration 'test' si nécessaire
+@Transactional
+
+class BlocServiceUnitaireTest {
 
     @Autowired
     private BlocRepository blocRepository;
@@ -40,21 +47,21 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
 
-   @Test
-   void test_addOrUpdate_ShouldSaveBloc() {
-      Bloc bloc = new Bloc();
-      bloc.setNomBloc("Bloc A");
-      bloc.setCapaciteBloc(50);
+    @Test
+    void test_addOrUpdate_ShouldSaveBloc() {
+        Bloc bloc = new Bloc();
+        bloc.setNomBloc("Bloc A");
+        bloc.setCapaciteBloc(50);
 
-      Bloc savedBloc = blocService.addOrUpdate(bloc);
+        Bloc savedBloc = blocService.addOrUpdate(bloc);
 
-      assertNotNull(savedBloc.getIdBloc());
-      assertEquals("Bloc A", savedBloc.getNomBloc());
-      assertEquals(50, savedBloc.getCapaciteBloc());
-   }
+        assertNotNull(savedBloc.getIdBloc());
+        assertEquals("Bloc A", savedBloc.getNomBloc());
+        assertEquals(50, savedBloc.getCapaciteBloc());
+    }
 
-     @Test
-     void testFindAll() {
+    @Test
+    void testFindAll() {
         // Given
         Bloc bloc1 = new Bloc();
         bloc1.setNomBloc("Bloc A");
@@ -72,7 +79,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-     void testFindById() {
+    void testFindById() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -87,7 +94,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-     void testDeleteById() {
+    void testDeleteById() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -101,7 +108,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-     void testAffecterChambresABloc() {
+    void testAffecterChambresABloc() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");
@@ -126,7 +133,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-     void testAffecterBlocAFoyer() {
+    void testAffecterBlocAFoyer() {
         // Given
         Bloc bloc = new Bloc();
         bloc.setNomBloc("Bloc A");

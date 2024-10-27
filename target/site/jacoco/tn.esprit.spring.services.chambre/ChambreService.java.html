@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChambreService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.spring.services.chambre</a> &gt; <span class="el_source">ChambreService.java</span></div><h1>ChambreService.java</h1><pre class="source lang-java linenums">package tn.esprit.spring.services.chambre;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import tn.esprit.spring.dao.entities.Bloc;
+import tn.esprit.spring.dao.entities.Chambre;
+import tn.esprit.spring.dao.entities.TypeChambre;
+import tn.esprit.spring.dao.repositories.BlocRepository;
+import tn.esprit.spring.dao.repositories.ChambreRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+@Service
+<span class="nc" id="L17">@AllArgsConstructor</span>
+<span class="nc" id="L18">@Slf4j</span>
+public class ChambreService implements IChambreService {
+    ChambreRepository repo;
+    BlocRepository blocRepository;
+
+    @Override
+    public Chambre addOrUpdate(Chambre c) {
+<span class="nc" id="L25">        return repo.save(c);</span>
+    }
+
+    @Override
+    public List&lt;Chambre&gt; findAll() {
+<span class="nc" id="L30">        return repo.findAll();</span>
+    }
+
+    @Override
+    public Chambre findById(long id) {
+<span class="nc" id="L35">        Optional&lt;Chambre&gt; optionalChambre = repo.findById(id);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (optionalChambre.isPresent()) {</span>
+<span class="nc" id="L37">            return optionalChambre.get();</span>
+        } else {
+<span class="nc" id="L39">            throw new NoSuchElementException(&quot;Chambre not found with id: &quot; + id);</span>
+        }
+    }
+
+
+    @Override
+    public void deleteById(long id) {
+<span class="nc" id="L46">        repo.deleteById(id);</span>
+<span class="nc" id="L47">    }</span>
+
+    @Override
+    public void delete(Chambre c) {
+<span class="nc" id="L51">        repo.delete(c);</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public List&lt;Chambre&gt; getChambresParNomBloc(String nomBloc) {
+<span class="nc" id="L56">        return repo.findByBlocNomBloc(nomBloc);</span>
+    }
+
+    @Override
+    public long nbChambreParTypeEtBloc(TypeChambre type, long idBloc) {
+<span class="nc" id="L61">        return repo.countByTypeCAndBlocIdBloc(type, idBloc);</span>
+    }
+
+
+    @Override
+    public void listeChambresParBloc() {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (Bloc b : blocRepository.findAll()) {</span>
+<span class="nc" id="L68">            log.info(&quot;Bloc =&gt; &quot; + b.getNomBloc() + &quot; ayant une capacité &quot; + b.getCapaciteBloc());</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (b.getChambres().size() != 0) {</span>
+<span class="nc" id="L70">                log.info(&quot;La liste des chambres pour ce bloc: &quot;);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                for (Chambre c : b.getChambres()) {</span>
+<span class="nc" id="L72">                    log.info(&quot;NumChambre: &quot; + c.getNumeroChambre() + &quot; type: &quot; + c.getTypeC());</span>
+<span class="nc" id="L73">                }</span>
+            } else {
+<span class="nc" id="L75">                log.info(&quot;Pas de chambre disponible dans ce bloc&quot;);</span>
+            }
+<span class="nc" id="L77">            log.info(&quot;********************&quot;);</span>
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">    }</span>
+
+    @Override
+    public void pourcentageChambreParTypeChambre() {
+<span class="nc" id="L83">        long totalChambre = repo.count();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (totalChambre == 0) {</span>
+<span class="nc" id="L85">            log.warn(&quot;Aucune chambre trouvée pour calculer les pourcentages.&quot;);</span>
+<span class="nc" id="L86">            return;</span>
+        }
+
+<span class="nc" id="L89">        double pSimple = ((double) repo.countChambreByTypeC(TypeChambre.SIMPLE) * 100) / totalChambre;</span>
+<span class="nc" id="L90">        double pDouble = ((double) repo.countChambreByTypeC(TypeChambre.DOUBLE) * 100) / totalChambre;</span>
+<span class="nc" id="L91">        double pTriple = ((double) repo.countChambreByTypeC(TypeChambre.TRIPLE) * 100) / totalChambre;</span>
+
+<span class="nc" id="L93">        log.info(&quot;Nombre total des chambres : &quot; + totalChambre);</span>
+<span class="nc" id="L94">        log.info(&quot;Le pourcentage des chambres pour le type SIMPLE est égal à &quot; + pSimple);</span>
+<span class="nc" id="L95">        log.info(&quot;Le pourcentage des chambres pour le type DOUBLE est égal à &quot; + pDouble);</span>
+<span class="nc" id="L96">        log.info(&quot;Le pourcentage des chambres pour le type TRIPLE est égal à &quot; + pTriple);</span>
+<span class="nc" id="L97">    }</span>
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

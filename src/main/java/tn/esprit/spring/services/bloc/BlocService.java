@@ -79,8 +79,8 @@ public class BlocService implements IBlocService {
         }
 
         for (Chambre cha : chambres) {
-                cha.setBloc(b);
-                chambreRepository.save(cha);
+            cha.setBloc(b);
+            chambreRepository.save(cha);
         }
         return b;
     }
