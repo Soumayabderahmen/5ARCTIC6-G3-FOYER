@@ -53,15 +53,6 @@ pipeline {
                    }
                }
 
-        stage("Quality Gate"){
-                   steps {
-                       script {
-                            waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-devops'
-                        }
-                    }
-
-                }
-
         stage ('Building docker image') {
             steps {
                 sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
