@@ -213,7 +213,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAjouterReservationSimpleRoomFull() {
+    void testAjouterReservationSimpleRoomFull() {
         Long numChambre = 1L;
         long cin = 123456789L;
 
@@ -398,7 +398,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservation_InvalidCinEtudiant() {
+    void testAnnulerReservation_InvalidCinEtudiant() {
         long cinEtudiant = -1;
 
         String result = reservationService.annulerReservation(cinEtudiant);
@@ -408,7 +408,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservation_ReservationNotValid() {
+    void testAnnulerReservation_ReservationNotValid() {
         long cinEtudiant = 123456;
         Reservation reservation = new Reservation();
         Chambre chambre = new Chambre();
@@ -426,7 +426,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservation_NoReservationFound() {
+    void testAnnulerReservation_NoReservationFound() {
         long cinEtudiant = 123456;
 
         when(repo.findByEtudiantsCinAndEstValide(cinEtudiant, true)).thenReturn(null);
@@ -439,7 +439,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservation_ExceptionThrown() {
+    void testAnnulerReservation_ExceptionThrown() {
         long cinEtudiant = 123456;
 
         when(repo.findByEtudiantsCinAndEstValide(cinEtudiant, true)).thenThrow(new RuntimeException("Database error"));
@@ -475,7 +475,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAffectReservationAChambre_ReservationNotFound() {
+    void testAffectReservationAChambre_ReservationNotFound() {
         String idRes = "invalidRes";
         long idChambre = 1L;
 
@@ -490,7 +490,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAffectReservationAChambre_ChambreNotFound() {
+    void testAffectReservationAChambre_ChambreNotFound() {
         String idRes = "res123";
         long idChambre = 999L;
 
@@ -509,7 +509,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAffectReservationAChambre_AlreadyAssigned() {
+    void testAffectReservationAChambre_AlreadyAssigned() {
         String idRes = "res123";
         long idChambre = 1L;
 
@@ -536,7 +536,7 @@ class ReservationServiceTest {
 
 
     @Test
-    public void testAffectReservationAChambre_NewAssignment() {
+    void testAffectReservationAChambre_NewAssignment() {
         String idRes = "res123";
         long idChambre = 1L;
 
@@ -562,7 +562,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAffectReservationAChambre_ExceptionThrown() {
+    void testAffectReservationAChambre_ExceptionThrown() {
         String idRes = "res123";
         long idChambre = 1L;
 
@@ -602,7 +602,7 @@ class ReservationServiceTest {
         verify(repo, times(2)).save(any(Reservation.class));
     }
     @Test
-    public void testAnnulerReservations_NoReservations() {
+    void testAnnulerReservations_NoReservations() {
         // Arrange
         when(repo.findByEstValideAndAnneeUniversitaireBetween(eq(true), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(Collections.emptyList());
@@ -615,7 +615,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservations_SomeAlreadyInvalid() {
+    void testAnnulerReservations_SomeAlreadyInvalid() {
         // Arrange
         Reservation reservation1 = new Reservation();
         reservation1.setIdReservation("res1");
@@ -640,7 +640,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testAnnulerReservations_ExceptionOnSave() {
+    void testAnnulerReservations_ExceptionOnSave() {
         // Arrange
         Reservation reservation = new Reservation();
         reservation.setIdReservation("res1");

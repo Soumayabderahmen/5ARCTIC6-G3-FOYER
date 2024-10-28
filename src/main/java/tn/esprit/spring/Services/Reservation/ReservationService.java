@@ -15,6 +15,8 @@ import tn.esprit.spring.DAO.Repositories.ReservationRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +25,7 @@ public class ReservationService implements IReservationService {
     ReservationRepository repo;
     ChambreRepository chambreRepository;
     EtudiantRepository etudiantRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ReservationService.class);
 
     @Override
     public Reservation addOrUpdate(Reservation r) {
@@ -69,7 +72,6 @@ public class ReservationService implements IReservationService {
         // Début "récuperer l'année universitaire actuelle"
         LocalDate dateDebutAU;
         LocalDate dateFinAU;
-        int numReservation;
         int year = LocalDate.now().getYear() % 100;
         if (LocalDate.now().getMonthValue() <= 7) {
             dateDebutAU = LocalDate.of(Integer.parseInt("20" + (year - 1)), 9, 15);
@@ -92,8 +94,7 @@ public class ReservationService implements IReservationService {
         }
         boolean ajout = false;
         int numRes = chambreRepository.countReservationsByIdChambreAndReservationsAnneeUniversitaireBetween(c.getIdChambre(), dateDebutAU, dateFinAU);
-        //int numRes = chambreRepository.listerReservationPourUneChambre(c.getIdChambre(), dateDebutAU, dateFinAU);
-        System.err.println(numRes);
+        logger.error("Reservation number: {}", numRes);
         switch (c.getTypeC()) {
             case SIMPLE:
                 if (numRes < 1) {
@@ -121,7 +122,7 @@ public class ReservationService implements IReservationService {
             res.setEstValide(false);
             res.setAnneeUniversitaire(LocalDate.now());
             // AU-BLOC-NumChambre-CIN --> Exemple: 2023/2024-Bloc A-1-123456789
-            //res.setIdReservation(c.getNumeroChambre() + "-" + c.getBloc().getNomBloc() + "-" + e.getCin());
+
             res.setIdReservation(dateDebutAU.getYear() + "/" + dateFinAU.getYear() + "-" + c.getBloc().getNomBloc() + "-" + c.getNumeroChambre() + "-" + e.getCin());
             res.getEtudiants().add(e);
             res.setEstValide(true);
@@ -183,7 +184,6 @@ public class ReservationService implements IReservationService {
             // Début "récuperer l'année universitaire actuelle"
             LocalDate dateDebutAU;
             LocalDate dateFinAU;
-            int numReservation;
             int year = LocalDate.now().getYear() % 100;
             if (LocalDate.now().getMonthValue() <= 7) {
                 dateDebutAU = LocalDate.of(Integer.parseInt("20" + (year - 1)), 9, 15);

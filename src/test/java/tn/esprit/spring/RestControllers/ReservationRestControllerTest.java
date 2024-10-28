@@ -35,7 +35,7 @@ class ReservationRestControllerTest {
     }
 
     @Test
-    public void testAddOrUpdate_NullReservation() {
+    void testAddOrUpdate_NullReservation() {
         ReservationRestController controller = new ReservationRestController(null);
 
         assertThrows(NullPointerException.class, () -> controller.addOrUpdate(null));
@@ -57,7 +57,7 @@ class ReservationRestControllerTest {
     }
 
     @Test
-    public void testFindAll_Empty() {
+    void testFindAll_Empty() {
         ReservationService mockService = Mockito.mock(ReservationService.class);
         Mockito.when(mockService.findAll()).thenReturn(Collections.emptyList());
 
@@ -88,7 +88,7 @@ class ReservationRestControllerTest {
     }
 
     @Test
-    public void testFindById_NonexistentId() {
+    void testFindById_NonexistentId() {
         String id = "456";
         ReservationService mockService = Mockito.mock(ReservationService.class);
         Mockito.when(mockService.findById(id)).thenReturn(null);
