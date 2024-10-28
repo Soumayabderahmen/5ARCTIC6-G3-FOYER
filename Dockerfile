@@ -9,7 +9,7 @@ COPY target/Foyer-0.0.1-SNAPSHOT.jar app.jar
 
 
 # Exposer le port 8081
-EXPOSE 8081
+EXPOSE 8082
 
 # Point d'entrée de l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
