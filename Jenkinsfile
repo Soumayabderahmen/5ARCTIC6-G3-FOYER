@@ -48,6 +48,14 @@ pipeline {
                 }
             }
         }
+         stage('Start SonarQube Container') {
+                    steps {
+                        script {
+                            echo 'Starting SonarQube container...'
+                            sh 'docker start sonarqube'
+                        }
+                    }
+                }
          stage('Code Quality Check via SonarQube') {
     steps {
         script {
