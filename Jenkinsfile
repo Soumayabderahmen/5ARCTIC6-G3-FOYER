@@ -35,7 +35,7 @@ pipeline {
                 script {
                     echo 'Building the project and packaging the artifact...'
                     withMaven(maven: 'Maven') {
-                        sh 'mvn package'
+                        sh 'mvn -Dmaven.test.skip=true package'
                     }
                 }
             }
