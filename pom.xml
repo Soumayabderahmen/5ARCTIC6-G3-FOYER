@@ -131,5 +131,10 @@
         </plugins>
         <finalName>Foyer</finalName>
     </build>
-
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>  <!-- You can choose any ID you want -->
+            <url>http://192.168.56.10:8082</url>
+        </repository>
+    </distributionManagement>
 </project>
