@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // Utiliser H2 en mémoire
 @ActiveProfiles("test") // Assurez-vous que votre application.properties a une configuration 'test' si nécessaire
 
- class EtudiantServiceUniTest {
+ class EtudiantServiceTestUnitaire {
     @Autowired
     private EtudiantService etudiantService;
 
