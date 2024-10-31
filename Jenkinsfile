@@ -58,17 +58,17 @@ pipeline {
         }
     }
 }
-/*
+
                 stage('Publish to Nexus') {
                     steps {
                         script {
                             // Publish the artifact to Nexus repository
-                            sh './mvnw deploy'
+                            sh 'mvn deploy'
                         }
                     }
                 }
 
-               */
+
 
         stage('Building Docker Image') {
             steps {
