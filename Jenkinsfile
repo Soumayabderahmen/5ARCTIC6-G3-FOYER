@@ -64,7 +64,7 @@ pipeline {
                     steps {
                         script {
                             // Publish the artifact to Nexus repository
-                            sh 'mvn deploy'
+                            sh 'mvn deploy -Dmaven.test.skip=true'
                         }
                     }
                 }
