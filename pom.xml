@@ -133,8 +133,12 @@
     </build>
     <distributionManagement>
         <repository>
-            <id>deploymentRepo</id>  <!-- You can choose any ID you want -->
-            <url>http://192.168.56.10:8082</url>
+            <id>deploymentRepo</id>
+            <url>http://192.168.56.10:8082/repository/maven-snapshots/</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshotRepo</id>
+            <url>http://192.168.56.10:8082/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>
