@@ -137,7 +137,7 @@
             <url>http://192.168.56.10:8082/repository/maven-snapshots/</url>
         </repository>
         <snapshotRepository>
-            <id>snapshotRepo</id>
+            <id>deploymentRepo</id>
             <url>http://192.168.56.10:8082/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
