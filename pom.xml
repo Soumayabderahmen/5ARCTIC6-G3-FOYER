@@ -138,14 +138,5 @@
         </plugins>
         <finalName>Foyer</finalName>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>deploymentRepo</id>  <!-- ID should match the server ID in settings.xml -->
-            <url>http://192.168.56.10:8082/repository/maven-releases/</url> <!-- URL for release artifacts -->
-        </repository>
-        <snapshotRepository>
-            <id>deploymentRepo</id>  <!-- ID should match the server ID in settings.xml -->
-            <url>http://192.168.56.10:8082/repository/maven-snapshots/</url> <!-- URL for snapshot artifacts -->
-        </snapshotRepository>
-    </distributionManagement>
+
 </project>
