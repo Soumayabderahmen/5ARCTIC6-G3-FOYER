@@ -56,7 +56,7 @@ pipeline {
         stage('Code Quality Check via SonarQube') {
             steps {
                 script {
-                    // SonarQube analysis
+                    echo 'Performing SonarQube analysis...'
                     withSonarQubeEnv('SonarQube') {
                         sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=5ARCTIC6_FOYER_G3 -Dsonar.projectName="5ARCTIC6_FOYER_G3" -Dsonar.host.url=http://192.168.56.10:9000'
                     }
@@ -64,33 +64,10 @@ pipeline {
             }
         }
 
-        /*
-        stage('Publish to Nexus') {
-            steps {
-                script {
-                    // Publish the artifact to Nexus repository
-                    sh 'mvn deploy -Dmaven.test.skip=true'
-                }
-            }
-        }
-        */
-        stage('Publish to Nexus') {
-                    steps {
-                        script {
-                            // Publish the artifact to Nexus repository
-                            docker.withRegistry("http://"+registry,
-                            registryCredentials ) {
-                            sh('docker push $registry/deploymentRepo ')
-
-                        }
-                    }
-                }
-}
         stage('Building Docker Image') {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    // Remplacez "your-image-name" par le nom correct de l'image
                     sh 'docker build -t soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0 .'
                 }
             }
@@ -108,6 +85,16 @@ pipeline {
             }
         }
 
+        stage('Publish to Nexus') {
+            steps {
+                script {
+                    // Publish the artifact to Nexus repository
+                    echo 'Publishing to Nexus...'
+                    sh 'mvn deploy -Dmaven.test.skip=true'
+                }
+            }
+        }
+
         stage('Deploy with Docker Compose') {
             steps {
                 script {
@@ -116,20 +103,7 @@ pipeline {
                 }
             }
         }
-
-   /*     stage('Deploy to Minikube') {
-            steps {
-                script {
-                    echo 'Deploying to K8s...'
-                    sh 'kubectl config use-context minikube'
-                    sh 'minikube kubectl -- apply -f mysql-secrets.yaml -n jenkins'
-                    sh 'minikube kubectl -- apply -f mysql-pv-pvc.yaml -n jenkins'
-                    sh 'minikube kubectl -- apply -f mysql-configMap.yaml -n jenkins'
-                    sh 'minikube kubectl -- apply -f backend-deployment.yaml -n jenkins'
-                }
-            }
-        }
-    }*/
+    }
 
     post {
         always {
@@ -146,7 +120,7 @@ pipeline {
                         <div style="background-color: ${bannerColor}; padding: 10px;">
                             <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
                         </div>
-                        <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                        <p>Check the <a href="${env.BUILD_URL}">console output</a>.</p>
                     </div>
                 </body>
                 </html>"""
