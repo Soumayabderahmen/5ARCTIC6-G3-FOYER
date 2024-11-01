@@ -5,6 +5,7 @@ tn\esprit\spring\DAO\Entities\Reservation.class
 tn\esprit\spring\RestControllers\EtudiantRestControllerTest.class
 tn\esprit\spring\DAO\Entities\Etudiant$EtudiantBuilder.class
 tn\esprit\spring\DAO\Repositories\ReservationRepository.class
+tn\esprit\spring\Services\Reservation\ReservationServiceUnitTest.class
 tn\esprit\spring\DAO\Entities\Etudiant.class
 tn\esprit\spring\Services\Etudiant\EtudiantServiceTestUnitaire.class
 tn\esprit\spring\DAO\Entities\Reservation$ReservationBuilder.class

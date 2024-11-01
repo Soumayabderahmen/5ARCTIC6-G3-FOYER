@@ -12,36 +12,36 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-<span class="nc" id="L15">@AllArgsConstructor</span>
-<span class="nc" id="L16">@Slf4j</span>
+<span class="fc" id="L15">@AllArgsConstructor</span>
+<span class="fc" id="L16">@Slf4j</span>
 public class ReservationService implements IReservationService {
     ReservationRepository repo;
     EtudiantRepository etudiantRepository;
 
     @Override
     public Reservation addOrUpdate(Reservation r) {
-<span class="nc" id="L23">        return repo.save(r);</span>
+<span class="fc" id="L23">        return repo.save(r);</span>
     }
 
     @Override
     public List&lt;Reservation&gt; findAll() {
-<span class="nc" id="L28">        return repo.findAll();</span>
+<span class="fc" id="L28">        return repo.findAll();</span>
     }
 
     @Override
     public Reservation findById(String id) {
-<span class="nc" id="L33">        return repo.findById(id).get();</span>
+<span class="fc" id="L33">        return repo.findById(id).get();</span>
     }
 
     @Override
     public void deleteById(String id) {
-<span class="nc" id="L38">        repo.deleteById(id);</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L38">        repo.deleteById(id);</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     public void delete(Reservation r) {
-<span class="nc" id="L43">        repo.delete(r);</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L43">        repo.delete(r);</span>
+<span class="fc" id="L44">    }</span>
 
     @Override
     public Reservation ajouterReservationEtAssignerAChambreEtAEtudiant(Long numChambre, long cin) {
