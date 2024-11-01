@@ -67,7 +67,6 @@ pipeline {
                 script {
                     echo "Publishing the artifact to Nexus repository..."
                     sh 'mvn deploy -Dmaven.test.skip=true --settings /usr/share/maven/conf/settings.xml'
-                    }
                 }
             }
         }
