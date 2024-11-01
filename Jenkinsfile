@@ -6,6 +6,8 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soumaya'
         EMAIL_RECIPIENT = 'soumayaabderahmen44@gmail.com'
         EMAIL_SUBJECT = 'Statut du Build Jenkins'
+        registryCredentials = "nexus"
+        registry = "192.168.56.10:8082"
     }
 
     tools {
@@ -72,6 +74,17 @@ pipeline {
             }
         }
         */
+        stage('Publish to Nexus') {
+                    steps {
+                        script {
+                            // Publish the artifact to Nexus repository
+                            docker.withRegistry("http://"+registry,
+                            registryCredentials ) {
+                            sh('docker push $registry/deploymentRepo ')
+
+                        }
+                    }
+                }
 
         stage('Building Docker Image') {
             steps {
@@ -104,7 +117,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Minikube') {
+   /*     stage('Deploy to Minikube') {
             steps {
                 script {
                     echo 'Deploying to K8s...'
@@ -116,7 +129,7 @@ pipeline {
                 }
             }
         }
-    }
+    }*/
 
     post {
         always {
