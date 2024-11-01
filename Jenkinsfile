@@ -60,7 +60,7 @@ pipeline {
     }
 }
 
-                stage('Publish to Nexus') {
+          /*      stage('Publish to Nexus') {
                     steps {
                         script {
                             // Publish the artifact to Nexus repository
@@ -69,7 +69,7 @@ pipeline {
                     }
                 }
 
-
+*/
 
         stage('Building Docker Image') {
             steps {
@@ -103,7 +103,18 @@ pipeline {
         }
     }
 
-
+stage('Deploy to Minikube') {
+            steps {
+                script {
+                    echo 'Deploy to K8s...'
+                    sh 'kubectl apply -f mysql-configMap.yaml'
+                    sh 'kubectl apply -f mysql-secrets.yaml'
+                    sh 'kubectl apply -f mysql-pv-pvc.yaml'
+                    sh 'kubectl apply -f backend-deployment.yaml'
+                }
+            }
+        }
+    }
     post {
            always {
                script {
