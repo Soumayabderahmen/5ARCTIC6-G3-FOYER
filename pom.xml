@@ -89,7 +89,16 @@
             <version>2.0.0</version>
         </dependency>
     </dependencies>
-
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>
+            <url>http://192.168.56.10:8082/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshotRepo</id>
+            <url>http://192.168.56.10:8082/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
@@ -113,9 +122,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>3.1.1</version>
+                <configuration>
+                    <altDeploymentRepository>deploymentRepo::default::http://192.168.56.10:8082/repository/deploymentRepo/</altDeploymentRepository>
 
+                </configuration>
 
             </plugin>
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -132,20 +145,16 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+
                     </execution>
+
+
+
                 </executions>
+
             </plugin>
         </plugins>
         <finalName>Foyer</finalName>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>deploymentRepo</id>  <!-- ID should match the server ID in settings.xml -->
-            <url>http://192.168.56.10:8082/repository/maven-releases/</url> <!-- URL for release artifacts -->
-        </repository>
-        <snapshotRepository>
-            <id>deploymentRepo</id>  <!-- ID should match the server ID in settings.xml -->
-            <url>http://192.168.56.10:8082/repository/deploymentRepo/</url> <!-- URL for snapshot artifacts -->
-        </snapshotRepository>
-    </distributionManagement>
+
 </project>

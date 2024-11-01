@@ -66,8 +66,7 @@ pipeline {
             steps {
                 script {
                     echo "Publishing the artifact to Nexus repository..."
-                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                        sh 'mvn deploy -Dmaven.test.skip=true '
+                    sh 'mvn deploy -Dmaven.test.skip=true --settings /usr/share/maven/conf/settings.xml'
                     }
                 }
             }
