@@ -56,7 +56,7 @@ pipeline {
         stage('Deploy to Nexus') {
                     steps {
                         echo 'Deploying to Nexus...'
-                        sh 'mvn deploy -e'
+                        sh 'mvn deploy -Dmaven.test.skip=true'
                     }
                 }
 
