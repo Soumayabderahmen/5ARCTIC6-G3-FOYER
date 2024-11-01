@@ -6,8 +6,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soumaya'
         EMAIL_RECIPIENT = 'soumayaabderahmen44@gmail.com'
         EMAIL_SUBJECT = 'Statut du Build Jenkins'
-        registryCredentials = "nexus"
-        registry = "192.168.56.10:8082"
+        NEXUS_CREDENTIALS_ID = 'nexus_credentials_id'
     }
 
     tools {
@@ -19,7 +18,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out the repository..."
-                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: 'AbderahmenSoumaya-5ARCTIC6-G3', credentialsId: "${env.GITHUB_CREDENTIALS_ID}"
+                    git url: 'https://github.com/Soumayabderahmen/5ARCTIC6-G3-FOYER.git', branch: 'AbderahmenSoumaya-5ARCTIC6-G3', credentialsId: GITHUB_CREDENTIALS_ID
                 }
             }
         }
@@ -56,9 +55,22 @@ pipeline {
         stage('Code Quality Check via SonarQube') {
             steps {
                 script {
-                    echo 'Performing SonarQube analysis...'
+                    // SonarQube analysis
                     withSonarQubeEnv('SonarQube') {
                         sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=5ARCTIC6_FOYER_G3 -Dsonar.projectName="5ARCTIC6_FOYER_G3" -Dsonar.host.url=http://192.168.56.10:9000'
+                    }
+                }
+            }
+        }
+
+        stage('Publish to Nexus') {
+            steps {
+                script {
+                    // Publish the artifact to Nexus repository
+                     echo "Publishing the artifact to Nexus repository..."
+                                 withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                                     sh 'mvn deploy -Dmaven.test.skip=true -DaltDeploymentRepository=nexus::default::http://192.168.56.10:8082/repository/deploymentRepo -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD'
+                               }
                     }
                 }
             }
@@ -77,20 +89,10 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing Docker image to DockerHub...'
-                    withCredentials([usernamePassword(credentialsId: "${env.DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
                         sh 'docker push soumayaabderahmen/soumayaabderahmen_g3_foyer:v1.0.0'
                     }
-                }
-            }
-        }
-
-        stage('Publish to Nexus') {
-            steps {
-                script {
-                    // Publish the artifact to Nexus repository
-                    echo 'Publishing to Nexus...'
-                    sh 'mvn deploy -Dmaven.test.skip=true'
                 }
             }
         }
@@ -103,6 +105,19 @@ pipeline {
                 }
             }
         }
+
+        /*stage('Deploy to Minikube') {
+            steps {
+                script {
+                    echo 'Deploying to K8s...'
+                    sh 'kubectl config use-context minikube'
+                    sh 'minikube kubectl -- apply -f mysql-secrets.yaml -n jenkins'
+                    sh 'minikube kubectl -- apply -f mysql-pv-pvc.yaml -n jenkins'
+                    sh 'minikube kubectl -- apply -f mysql-configMap.yaml -n jenkins'
+                    sh 'minikube kubectl -- apply -f backend-deployment.yaml -n jenkins'
+                }
+            }
+        }*/
     }
 
     post {
@@ -110,25 +125,25 @@ pipeline {
             script {
                 def jobName = env.JOB_NAME
                 def buildNumber = env.BUILD_NUMBER
-                def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
-                def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
+                def pipelineStatus = currentBuild.result ?: 'SUCCESS'
+                def bannerColor = pipelineStatus == 'SUCCESS' ? 'green' : 'red'
 
                 def body = """<html>
                 <body>
                     <div style="border: 4px solid ${bannerColor}; padding: 10px;">
                         <h2>${jobName} - Build ${buildNumber}</h2>
                         <div style="background-color: ${bannerColor}; padding: 10px;">
-                            <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                            <h3 style="color: white;">Pipeline Status: ${pipelineStatus}</h3>
                         </div>
-                        <p>Check the <a href="${env.BUILD_URL}">console output</a>.</p>
+                        <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
                     </div>
                 </body>
                 </html>"""
 
                 emailext (
-                    subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
+                    subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus}",
                     body: body,
-                    to: env.EMAIL_RECIPIENT,
+                    to: EMAIL_RECIPIENT,
                     from: 'jenkins@example.com',
                     replyTo: 'jenkins@example.com',
                     mimeType: 'text/html'
