@@ -53,6 +53,13 @@ pipeline {
                    }
                }
 
+        stage('Deploy to Nexus') {
+                    steps {
+                        echo 'Deploying to Nexus...'
+                        sh 'mvn deploy'
+                    }
+                }
+
         stage ('Building docker image') {
             steps {
                 sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
