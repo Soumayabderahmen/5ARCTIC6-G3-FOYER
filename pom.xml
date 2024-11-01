@@ -66,11 +66,11 @@
 
     <distributionManagement>
     <repository>
-        <id>nexus-repo</id>
+        <id>deploymentRepo</id>
         <url>http://192.168.10.135:8081/repository/maven-releases/</url>
     </repository>
     <snapshotRepository>
-        <id>nexus-snapshots</id>
+        <id>DeploymentRepo</id>
         <url>http://192.168.10.135:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
     </distributionManagement>
