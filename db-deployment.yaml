@@ -38,7 +38,7 @@ spec:
           ports:
             - containerPort: 3306
               name: mysql
-              
+
           # Add volume mounts for persistent storage
           volumeMounts:
             - name: mysql-storage
@@ -66,4 +66,4 @@ spec:
   selector: # MySQL Pod should contain same labels
     app: mysql
     tier: database
-  clusterIP: None 
+  clusterIP: None
