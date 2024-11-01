@@ -22,6 +22,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin  # Définissez un mot de passe pour Grafana ici
     depends_on:
       - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana  # Volume pour persister les données de Grafana
+
 
 networks:
   monitoring:
