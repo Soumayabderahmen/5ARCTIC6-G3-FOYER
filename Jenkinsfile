@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
-        DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soumaya' // Ajoutez vos identifiants DockerHub ici
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soumaya'
         EMAIL_RECIPIENT = 'soumayaabderahmen44@gmail.com'
         EMAIL_SUBJECT = 'Statut du Build Jenkins'
     }
 
     tools {
-        maven 'Maven' // Utilisez la version de Maven configurée
+        maven 'Maven'
     }
 
     stages {
@@ -30,6 +30,7 @@ pipeline {
                 }
             }
         }
+
         stage('Artifact construction') {
             steps {
                 script {
@@ -40,36 +41,37 @@ pipeline {
                 }
             }
         }
+
         stage('Unit Tests') {
             steps {
-                echo 'Running unit  tests...'
+                echo 'Running unit tests...'
                 withMaven(maven: 'Maven') {
                     sh 'mvn test'
                 }
             }
         }
 
-         stage('Code Quality Check via SonarQube') {
-    steps {
-        script {
-            // SonarQube analysis
-            withSonarQubeEnv('SonarQube') {
-                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=5ARCTIC6_FOYER_G3 -Dsonar.projectName="5ARCTIC6_FOYER_G3" -Dsonar.host.url=http://192.168.56.10:9000'
-            }
-        }
-    }
-}
-
-          /*      stage('Publish to Nexus') {
-                    steps {
-                        script {
-                            // Publish the artifact to Nexus repository
-                            sh 'mvn deploy -Dmaven.test.skip=true'
-                        }
+        stage('Code Quality Check via SonarQube') {
+            steps {
+                script {
+                    // SonarQube analysis
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=5ARCTIC6_FOYER_G3 -Dsonar.projectName="5ARCTIC6_FOYER_G3" -Dsonar.host.url=http://192.168.56.10:9000'
                     }
                 }
+            }
+        }
 
-*/
+        /*
+        stage('Publish to Nexus') {
+            steps {
+                script {
+                    // Publish the artifact to Nexus repository
+                    sh 'mvn deploy -Dmaven.test.skip=true'
+                }
+            }
+        }
+        */
 
         stage('Building Docker Image') {
             steps {
@@ -101,12 +103,11 @@ pipeline {
                 }
             }
         }
-    }
 
-stage('Deploy to Minikube') {
+        stage('Deploy to Minikube') {
             steps {
                 script {
-                    echo 'Deploy to K8s...'
+                    echo 'Deploying to K8s...'
                     sh 'kubectl apply -f mysql-configMap.yaml'
                     sh 'kubectl apply -f mysql-secrets.yaml'
                     sh 'kubectl apply -f mysql-pv-pvc.yaml'
@@ -115,36 +116,36 @@ stage('Deploy to Minikube') {
             }
         }
     }
+
     post {
-           always {
-               script {
-                   def jobName = env.JOB_NAME
-                   def buildNumber = env.BUILD_NUMBER
-                   def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
-                   def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
+        always {
+            script {
+                def jobName = env.JOB_NAME
+                def buildNumber = env.BUILD_NUMBER
+                def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
+                def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
 
-                   def body = """<html>
-                   <body>
-                       <div style="border: 4px solid ${bannerColor}; padding: 10px;">
-                           <h2>${jobName} - Build ${buildNumber}</h2>
-                           <div style="background-color: ${bannerColor}; padding: 10px;">
-                               <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
-                           </div>
-                           <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
-                       </div>
-                   </body>
-                   </html>"""
+                def body = """<html>
+                <body>
+                    <div style="border: 4px solid ${bannerColor}; padding: 10px;">
+                        <h2>${jobName} - Build ${buildNumber}</h2>
+                        <div style="background-color: ${bannerColor}; padding: 10px;">
+                            <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                        </div>
+                        <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                    </div>
+                </body>
+                </html>"""
 
-                   emailext (
-                       subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
-                       body: body,
-                       to: 'soumayaabderahmen44@gmail.com',
-                       from: 'jenkins@example.com',
-                       replyTo: 'jenkins@example.com',
-                       mimeType: 'text/html',
-
-                   )
-               }
-           }
-       }
-   }
+                emailext (
+                    subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
+                    body: body,
+                    to: env.EMAIL_RECIPIENT,
+                    from: 'jenkins@example.com',
+                    replyTo: 'jenkins@example.com',
+                    mimeType: 'text/html'
+                )
+            }
+        }
+    }
+}
