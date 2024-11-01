@@ -7,6 +7,7 @@ pipeline {
     environment {
         GITHUB_CREDENTIALS_ID = 'github-token'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub'
+        NEXUS_CREDENTIALS_ID = 'nexus-credential'
     }
 
     stages {
@@ -56,7 +57,9 @@ pipeline {
         stage('Deploy to Nexus') {
                     steps {
                         echo 'Deploying to Nexus...'
-                        sh 'mvn deploy -Dmaven.test.skip=true'
+                        withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                           sh 'mvn deploy -Dmaven.test.skip=true -Dusername=$NEXUS_USER -Dpassword=$NEXUS_PASS'
+                        }
                     }
                 }
 
