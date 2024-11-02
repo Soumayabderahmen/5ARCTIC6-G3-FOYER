@@ -2,7 +2,6 @@ package tn.esprit.spring.DAO.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import tn.esprit.spring.DAO.Entities.Foyer;
-import tn.esprit.spring.DAO.Entities.TypeChambre;
 
 import java.util.List;
 
@@ -22,5 +21,5 @@ public interface FoyerRepository extends JpaRepository<Foyer,Long> {
     // Afficher la liste des foyers qui comportent des chambres de meme type
     // que le type passé en paramétre
     // Foyer -- Bloc -- Chambre
-    List<Foyer> getByBlocsChambresTypeC(TypeChambre typeChambre);
+   // List<Foyer> getByBlocsChambresTypeC(TypeChambre typeChambre);
 }

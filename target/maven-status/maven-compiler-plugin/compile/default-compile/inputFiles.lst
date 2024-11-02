@@ -1,4 +1,3 @@
-C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Entities\TypeChambre.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\RestControllers\UniversiteRestController.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Services\Etudiant\IEtudiantService.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Services\Universite\IUniversiteService.java
@@ -8,13 +7,10 @@ C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\sp
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Services\Etudiant\EtudiantService.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Services\Foyer\IFoyerService.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\FoyerApplication.java
-C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Entities\Reservation.java
-C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Entities\Chambre.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Config\SpringDocConfig.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Repositories\FoyerRepository.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\RestControllers\FoyerRestController.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Repositories\EtudiantRepository.java
-C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Entities\Bloc.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\DAO\Entities\Etudiant.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\RestControllers\EtudiantRestController.java
 C:\Users\AOUADI HADIL\Desktop\Foyer\5ARCTIC6-G3-FOYER\src\main\java\tn\esprit\spring\Schedular\test.java

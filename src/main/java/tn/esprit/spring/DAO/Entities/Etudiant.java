@@ -26,8 +26,8 @@ public class Etudiant implements Serializable {
     long cin;
     String ecole;
     LocalDate dateNaissance;
-    @ManyToMany(mappedBy = "etudiants")
-    List<Reservation> reservations= new ArrayList<>();
+    //@ManyToMany(mappedBy = "etudiants")
+    //List<Reservation> reservations= new ArrayList<>();
 
 
 }

@@ -49,8 +49,8 @@ public class FoyerRestController {
         return service.desaffecterFoyerAUniversite(idUniversite);
     }
 
-    @PostMapping("ajouterFoyerEtAffecterAUniversite")
-    public Foyer ajouterFoyerEtAffecterAUniversite(@RequestBody Foyer foyer,@RequestParam long idUniversite) {
-        return service.ajouterFoyerEtAffecterAUniversite(foyer,idUniversite);
-    }
+   // @PostMapping("ajouterFoyerEtAffecterAUniversite")
+    //public Foyer ajouterFoyerEtAffecterAUniversite(@RequestBody Foyer foyer,@RequestParam long idUniversite) {
+      //  return service.ajouterFoyerEtAffecterAUniversite(foyer,idUniversite);
+   // }
 }

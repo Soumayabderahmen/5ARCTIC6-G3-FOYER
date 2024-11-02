@@ -54,27 +54,27 @@ public class FoyerService implements IFoyerService {
         Universite u = universiteRepository.findById(idUniversite).get(); // Parent
         u.setFoyer(null);
         return universiteRepository.save(u);
-    }
+    }}
 
-    @Override
-    public Foyer ajouterFoyerEtAffecterAUniversite(Foyer foyer, long idUniversite) {
+   // @Override
+    //public Foyer ajouterFoyerEtAffecterAUniversite(Foyer foyer, long idUniversite) {
         // Récuperer la liste des blocs avant de faire l'ajout
-        List<Bloc> blocs = foyer.getBlocs();
+       // List<Bloc> blocs = foyer.getBlocs();
         // Foyer est le child et universite est parent
-        Foyer f = repo.save(foyer);
-        Universite u = universiteRepository.findById(idUniversite).get();
+        //Foyer f = repo.save(foyer);
+       // Universite u = universiteRepository.findById(idUniversite).get();
         // Foyer est le child et bloc est le parent
         //On affecte le child au parent
-        for (Bloc bloc : blocs) {
-            bloc.setFoyer(foyer);
+      //  for (Bloc bloc : blocs) {
+          //  bloc.setFoyer(foyer);
             //blocRepository.save(bloc);
-        }
-        u.setFoyer(f);
-        return universiteRepository.save(u).getFoyer();
-    }
+      //  }
+       // u.setFoyer(f);
+       // return universiteRepository.save(u).getFoyer();
+   // }
 
-    @Override
-    public Foyer ajoutFoyerEtBlocs(Foyer foyer) {
+  //  @Override
+    //public Foyer ajoutFoyerEtBlocs(Foyer foyer) {
         //Foyer child / Bloc parent
         //Objet foyer = attribut objet foyer + les blocs associés
 //        Foyer f = repo.save(foyer);
@@ -84,13 +84,13 @@ public class FoyerService implements IFoyerService {
 //        }
 //        return f;
         //-----------------------------------------
-        List<Bloc> blocs = foyer.getBlocs();
-        foyer = repo.save(foyer);
-        for (Bloc b : blocs) {
-            b.setFoyer(foyer);
-            //blocRepository.save(b);
-        }
-        return foyer;
-    }
+        // List<Bloc> blocs = foyer.getBlocs();
+        //foyer = repo.save(foyer);
+        // for (Bloc b : blocs) {
+        //   b.setFoyer(foyer);
+        //blocRepository.save(b);
+        //  }
+        //  return foyer;
+        // }
 
-}
+//}}

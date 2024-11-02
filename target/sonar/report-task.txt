@@ -2,5 +2,5 @@ projectKey=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
 serverUrl=http://10.0.0.10:9000
 serverVersion=10.7.0.96327
 dashboardUrl=http://10.0.0.10:9000/dashboard?id=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
-ceTaskId=e1f8cec9-c3f3-4d37-9b73-dcbd045e8136
-ceTaskUrl=http://10.0.0.10:9000/api/ce/task?id=e1f8cec9-c3f3-4d37-9b73-dcbd045e8136
+ceTaskId=4800b97a-4a9a-42b3-a885-57f48bdee499
+ceTaskUrl=http://10.0.0.10:9000/api/ce/task?id=4800b97a-4a9a-42b3-a885-57f48bdee499
