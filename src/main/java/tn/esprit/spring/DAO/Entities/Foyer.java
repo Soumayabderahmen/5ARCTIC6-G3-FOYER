@@ -5,8 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "T_FOYER")
@@ -24,6 +23,5 @@ public class Foyer implements Serializable {
     long capaciteFoyer;
     @OneToOne(mappedBy = "foyer")
     Universite universite;
-    //@OneToMany(mappedBy = "foyer")
-    //List<Bloc> blocs= new ArrayList<>();
+
 }

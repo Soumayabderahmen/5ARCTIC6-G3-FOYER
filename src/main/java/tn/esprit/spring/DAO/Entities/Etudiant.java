@@ -6,8 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "T_ETUDIANT")
@@ -26,8 +25,7 @@ public class Etudiant implements Serializable {
     long cin;
     String ecole;
     LocalDate dateNaissance;
-    //@ManyToMany(mappedBy = "etudiants")
-    //List<Reservation> reservations= new ArrayList<>();
+
 
 
 }

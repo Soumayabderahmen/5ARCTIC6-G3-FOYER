@@ -7,13 +7,14 @@ import tn.esprit.spring.DAO.Repositories.FoyerRepository;
 import tn.esprit.spring.DAO.Repositories.UniversiteRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
 public class FoyerService implements IFoyerService {
     FoyerRepository repo;
     UniversiteRepository universiteRepository;
-    //BlocRepository blocRepository;
+
 
     @Override
     public Foyer addOrUpdate(Foyer f) {
@@ -27,8 +28,9 @@ public class FoyerService implements IFoyerService {
 
     @Override
     public Foyer findById(long id) {
-        return repo.findById(id).get();
+        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Foyer not found with id: " + id));
     }
+
 
     @Override
     public void deleteById(long id) {
@@ -51,46 +53,9 @@ public class FoyerService implements IFoyerService {
 
     @Override
     public Universite desaffecterFoyerAUniversite(long idUniversite) {
-        Universite u = universiteRepository.findById(idUniversite).get(); // Parent
+        Universite u = universiteRepository.findById(idUniversite)
+                .orElseThrow(() -> new NoSuchElementException("Universite not found with id: " + idUniversite)); // Gérer le cas où l'université n'est pas trouvée
         u.setFoyer(null);
         return universiteRepository.save(u);
     }}
 
-   // @Override
-    //public Foyer ajouterFoyerEtAffecterAUniversite(Foyer foyer, long idUniversite) {
-        // Récuperer la liste des blocs avant de faire l'ajout
-       // List<Bloc> blocs = foyer.getBlocs();
-        // Foyer est le child et universite est parent
-        //Foyer f = repo.save(foyer);
-       // Universite u = universiteRepository.findById(idUniversite).get();
-        // Foyer est le child et bloc est le parent
-        //On affecte le child au parent
-      //  for (Bloc bloc : blocs) {
-          //  bloc.setFoyer(foyer);
-            //blocRepository.save(bloc);
-      //  }
-       // u.setFoyer(f);
-       // return universiteRepository.save(u).getFoyer();
-   // }
-
-  //  @Override
-    //public Foyer ajoutFoyerEtBlocs(Foyer foyer) {
-        //Foyer child / Bloc parent
-        //Objet foyer = attribut objet foyer + les blocs associés
-//        Foyer f = repo.save(foyer);
-//        for (Bloc b : foyer.getBlocs()) {
-//            b.setFoyer(f);
-//            blocRepository.save(b);
-//        }
-//        return f;
-        //-----------------------------------------
-        // List<Bloc> blocs = foyer.getBlocs();
-        //foyer = repo.save(foyer);
-        // for (Bloc b : blocs) {
-        //   b.setFoyer(foyer);
-        //blocRepository.save(b);
-        //  }
-        //  return foyer;
-        // }
-
-//}}
