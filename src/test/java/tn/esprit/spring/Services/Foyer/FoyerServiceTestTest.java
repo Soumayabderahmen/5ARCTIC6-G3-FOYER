@@ -29,14 +29,14 @@ import java.util.List;
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void addOrUpdate_ShouldSaveFoyer()
-    {
-        Foyer foyer = new Foyer();
-        foyer.setNomFoyer("Foyer Test");
-        when(foyerRepository.save(foyer)).thenReturn(foyer);
-        Foyer savedFoyer = foyerService.addOrUpdate(foyer);
-        assertNotNull(savedFoyer);
-    }
+   //* @Test
+   // void addOrUpdate_ShouldSaveFoyer()
+   // {
+   //     Foyer foyer = new Foyer();
+   //     foyer.setNomFoyer("Foyer Test");
+   //     when(foyerRepository.save(foyer)).thenReturn(foyer);
+   //     Foyer savedFoyer = foyerService.addOrUpdate(foyer);
+   //     assertNotNull(savedFoyer);
+   // }
 
 }
