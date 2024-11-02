@@ -1,0 +1,6 @@
+projectKey=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
+serverUrl=http://10.0.0.10:9000
+serverVersion=10.7.0.96327
+dashboardUrl=http://10.0.0.10:9000/dashboard?id=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
+ceTaskId=49af7d9b-2314-4cfd-b08f-e7a7b1780cfd
+ceTaskUrl=http://10.0.0.10:9000/api/ce/task?id=49af7d9b-2314-4cfd-b08f-e7a7b1780cfd
