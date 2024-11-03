@@ -6,7 +6,6 @@ pipeline {
       DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soussi'
       EMAIL_RECIPIENT = 'mohamednour.soussi@esprit.tn'
       EMAIL_SUBJECT = 'Jenkins CI/CD Status'
-      // NEXUS_CREDENTIALS_ID = 'nexus_credentials_id'
   }
   tools {
       maven 'Maven_HOME'
@@ -55,6 +54,21 @@ pipeline {
     stage('Upload Artifact to Nexus'){
       steps{
         sh 'mvn deploy -Dmaven.test.skip=true --settings /usr/share/maven/conf/settings.xml'
+      }
+    }
+    stage('Login to DockerHub'){
+      steps {
+        script {
+          echo 'Loggint to DockerHub'
+          withCredentials([usernamePassword(credentialsId:DOCKERHUB_CREDENTIALS_ID,usernameVariable:'DOCKERHUB_USERNAME',passwordVariable:'DOCKERHUB_PASSWORD')]){
+            sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+          }
+        }
+      }
+    }
+    stage('Building Docker image'){
+      steps{
+        sh 'docker build -t mohamedns/soussimohamednour_g3_foyer:0.1 .'
       }
     }
   }
