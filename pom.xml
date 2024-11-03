@@ -89,7 +89,7 @@
             <version>2.0.0</version>
         </dependency>
     </dependencies>
-
+  
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
@@ -120,7 +120,16 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.9.1.2184</version> <!-- Adaptez la version selon vos besoins -->
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <altDeploymentRepository>deploymentRepo::default::http://10.0.0.10:8081/repository/deploymentRepo/</altDeploymentRepository>
 
+                </configuration>
+
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
