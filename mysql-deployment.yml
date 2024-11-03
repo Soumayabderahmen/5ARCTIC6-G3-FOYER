@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqlDevops-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqlDevops-db
+  template:
+    metadata:
+      labels:
+        app: mysqlDevops-db
+    spec:
+      containers:
+        - name: mysqlDevops-db
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: "Foyer"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: mysqlDevops-storage
+      volumes:
+        - name: mysqlDevops-storage
+          persistentVolumeClaim:
+            claimName: mysqlDevops-pvc
