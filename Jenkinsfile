@@ -27,7 +27,30 @@ pipeline {
         echo 'Removing target and .class files ....'
         sh 'mvn clean'
       }
-
+    }
+    stage('Compile the project'){
+        steps{
+            sh 'mvn -Dmaven.test.skip=true package'
+        }
+    }
+    stage('Running unit tests'){
+        steps{
+            sh 'mvn test'
+        }
+    }
+    stage('Code Quality scan with sonarQube') {
+        steps {
+            withSonarQubeEnv(installationName: 'Soussi_SonarQube'){
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar'
+            }
+        }
+    }
+    stage('Quality Gate for SonarQube'){
+        steps {
+            timeout(time:1,unit:'MINUTES'){
+                waitForQualityGate abortPipeline: true
+            }
+        }
     }
   }
 }
