@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
 import java.io.Serializable;
 
 @Entity
-@Table(name = "T_UNIVERSITE")
+@Table(name = "t_universite")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +21,6 @@ public class Universite implements Serializable {
     long idUniversite;
     String nomUniversite;
     String adresse;
-    @OneToOne(cascade = CascadeType.ALL) //ajout, Modif et supprim
-    Foyer foyer;
+
 
 }

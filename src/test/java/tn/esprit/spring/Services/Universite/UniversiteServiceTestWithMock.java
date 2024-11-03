@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.DAO.Entities.Universite;
-import tn.esprit.spring.DAO.Entities.Foyer;
 import tn.esprit.spring.DAO.Repositories.UniversiteRepository;
 
 import java.util.Arrays;
@@ -24,18 +23,22 @@ public class UniversiteServiceTestWithMock {
     @Mock
     UniversiteRepository universiteRepository;
 
+    Universite universite;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        universite = Universite.builder()
+                .nomUniversite("Université Test")
+                .adresse("Adresse Test")
+                .build();
     }
 
     @Test
-    public void testAddOrUpdate() {
-        Foyer foyer = new Foyer(); // Remplir les champs requis de Foyer
+     void testAddOrUpdate() {
         Universite universite = Universite.builder()
                 .nomUniversite("Université Mock")
                 .adresse("Adresse Mock")
-                .foyer(foyer)
                 .build();
 
         when(universiteRepository.save(universite)).thenReturn(universite);
@@ -49,7 +52,7 @@ public class UniversiteServiceTestWithMock {
     }
 
     @Test
-    public void testFindAll() {
+     void testFindAll() {
         List<Universite> universites = Arrays.asList(new Universite(), new Universite());
 
         when(universiteRepository.findAll()).thenReturn(universites);
@@ -62,7 +65,7 @@ public class UniversiteServiceTestWithMock {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         Universite universite = Universite.builder().idUniversite(1L).build();
 
         when(universiteRepository.findById(1L)).thenReturn(Optional.of(universite));
@@ -75,24 +78,26 @@ public class UniversiteServiceTestWithMock {
     }
 
     @Test
-    public void testDeleteById() {
+     void testDeleteById() {
         long id = 1L;
-
+        when(universiteRepository.existsById(id)).thenReturn(true);
         doNothing().when(universiteRepository).deleteById(id);
-
         universiteService.deleteById(id);
-
         verify(universiteRepository, times(1)).deleteById(id);
     }
 
     @Test
-    public void testDelete() {
-        Universite universite = new Universite();
+     void testDelete() {
+        Universite universiteToDelete = Universite.builder()
+                .idUniversite(1L)
+                .nomUniversite("Université Test")
+                .adresse("Adresse Test")
 
-        doNothing().when(universiteRepository).delete(universite);
+                .build();
+        when(universiteRepository.existsById(universiteToDelete.getIdUniversite())).thenReturn(true);
+        doNothing().when(universiteRepository).delete(universiteToDelete);
+        universiteService.delete(universiteToDelete);
 
-        universiteService.delete(universite);
 
-        verify(universiteRepository, times(1)).delete(universite);
-    }
-}
+        verify(universiteRepository, times(1)).delete(universiteToDelete);
+    }}
