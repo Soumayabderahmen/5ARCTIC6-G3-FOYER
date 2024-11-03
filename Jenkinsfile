@@ -46,29 +46,25 @@ pipeline {
       }
     }
 
-    stage('Build, Test and SonarQube Analysis') {
-      parallel {
-        stage('Compile the project') {
-          steps {
-            sh 'mvn -Dmaven.test.skip=true package'
-          }
+      stage('Compile the project') {
+        steps {
+          sh 'mvn -Dmaven.test.skip=true package'
         }
+      }
 
-        stage('Running unit tests') {
-          steps {
-            sh 'mvn test'
-          }
+      stage('Running unit tests') {
+        steps {
+          sh 'mvn test'
         }
+      }
 
-        stage('Code Quality scan with sonarQube') {
-          steps {
-            withSonarQubeEnv(installationName: 'Soussi_SonarQube') {
-              sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar'
-            }
+      stage('Code Quality scan with sonarQube') {
+        steps {
+          withSonarQubeEnv(installationName: 'Soussi_SonarQube') {
+            sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar'
           }
         }
       }
-    }
 
     stage('Quality Gate for SonarQube') {
       steps {
@@ -107,6 +103,55 @@ pipeline {
       steps {
         sh 'docker push mohamedns/soussimohamednour_g3_foyer:0.1'
       }
+    }
+
+    stage('Deploy the spring boot application using docker compose'){
+      steps{
+        script {
+          echo 'Deploying Spring application with Mysql Container using Docker compose'
+          sh 'docker-compose -f docker-compose.yaml up'
+        }
+      }
+    }
+
+    stage('Test Docker container deployment and spring boot application'){
+      steps{
+        script{
+          echo 'Testing the spring boot applcication deployment'
+          sleep(20)
+          sh 'docker ps | grep springboot-app'
+        }
+      }
+    }
+    stage('Send a POST request to insert Reservation using REST Api'){
+      steps{
+        script{
+          echo 'Testing Reservation API'
+          def reservationJson = '''{
+            "idReservation": "res123",
+            "estValide": true
+          }'''
+          sh """
+            curl -X POST -H "Content-Type: application/json" -d '${reservationJson}' htttp://localhost:8081/Foyer/reservation/addOrUpdate
+          """
+          def response = sh(script:"""
+            curl -X GET -s htttp://localhost/8081/Foyer/reservation/findAll
+          """,returnStdout:true).trim()
+
+          echo "Got the following response : ${response}"
+          def testReservationInput = sh(script: """
+            echo '${response}' | jq 'map(select(.idReservation == "res123")) | length > 0'
+          """,returnStatus: true)
+
+          echo "Assertiong that a reservation was added successfully"
+          if (testReservationInput != 0){
+            error("Test failed: Reservatio not added")
+          } else{
+            echo "Test passed: Reservation was added successfully"
+          }
+        }
+      }
+
     }
   }
 
