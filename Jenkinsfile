@@ -12,6 +12,24 @@ pipeline {
   }
 
   stages {
+    stage('Install Trivy') {
+    steps {
+      script {
+        echo 'Checking if Trivy is already installed'
+        def trivyInstalled = sh(script: 'which trivy', returnStatus: true) == 0
+        if (!trivyInstalled) {
+          echo 'Trivy not found, installing...'
+          sh '''
+            wget https://github.com/aquasecurity/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-64bit.deb
+            sudo dpkg -i trivy_0.45.0_Linux-64bit.deb
+          '''
+        } else {
+          echo 'Trivy is already installed'
+        }
+      }
+    }
+    }
+
     stage('Checkout code from remote repository GitHub') {
       steps {
         script{
@@ -71,5 +89,25 @@ pipeline {
         sh 'docker build -t mohamedns/soussimohamednour_g3_foyer:0.1 .'
       }
     }
+    stage('Security Scan for docker image with Trivy') {
+      steps {
+        script {
+          echo 'Running security scan with Trivy and saving report'
+          sh 'trivy image --severity CRITICAL,HIGH --format json --output trivy-report.json mohamedns/soussimohamednour_g3_foyer:0.1'
+        }
+      }
+    }
+
+    stage('Pushing Backend Image to DockerHub'){
+      steps{
+        sh 'docker push mohamedns/soussimohamednour_g3_foyer:0.1'
+      }
+    }
   }
+  post {
+    always {
+      archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+    }
+  }
+
 }
