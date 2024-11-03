@@ -9,7 +9,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Changez 3306:3306 à 3307:3306
 
   springboot-app:
     image: hedilinux/projetdevopsimg:latest
