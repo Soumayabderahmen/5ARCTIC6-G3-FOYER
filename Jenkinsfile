@@ -109,7 +109,7 @@ pipeline {
       steps{
         script {
           echo 'Deploying Spring application with Mysql Container using Docker compose'
-          sh 'docker-compose -f docker-compose.yaml up'
+          sh 'docker-compose -f docker-compose.yaml up -d'
         }
       }
     }
@@ -132,10 +132,10 @@ pipeline {
             "estValide": true
           }'''
           sh """
-            curl -X POST -H "Content-Type: application/json" -d '${reservationJson}' htttp://localhost:8081/Foyer/reservation/addOrUpdate
+            curl -X POST -H "Content-Type: application/json" -d '${reservationJson}' http://localhost:8081/Foyer/reservation/addOrUpdate
           """
           def response = sh(script:"""
-            curl -X GET -s htttp://localhost/8081/Foyer/reservation/findAll
+            curl -X GET -s http://localhost:8081/Foyer/reservation/findAll
           """,returnStdout:true).trim()
 
           echo "Got the following response : ${response}"
@@ -158,6 +158,8 @@ pipeline {
   post {
     always {
       archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+      echo 'Cleanup: stopping and removing containers'
+      sh 'docker-compose down'
     }
   }
 }
