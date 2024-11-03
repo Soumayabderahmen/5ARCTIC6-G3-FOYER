@@ -52,5 +52,10 @@ pipeline {
             }
         }
     }
+    stage('Upload Artifact to Nexus'){
+      steps{
+        sh 'mvn deploy -Dmaven.test.skip=true --settings /usr/share/maven/conf/settings.xml'
+      }
+    }
   }
 }
