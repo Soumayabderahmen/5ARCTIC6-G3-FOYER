@@ -107,10 +107,10 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to K8s...'
-                    sh 'minikube kubectl -- apply -f mysql-secrets.yaml -n jenkins --token=$KUBE_CREDENTIALS'
-                    sh 'minikube kubectl -- apply -f mysql-pv-pvc.yaml -n jenkins --token=$KUBE_CREDENTIALS'
-                    sh 'minikube kubectl -- apply -f mysql-configMap.yaml -n jenkins --token=$KUBE_CREDENTIALS'
-                    sh 'minikube kubectl -- apply -f backend-deployment.yaml -n jenkins --token=$KUBE_CREDENTIALS'
+                    sh 'kubectl apply -f mysql-secrets.yaml -n jenkins --token=$KUBE_CREDENTIALS'
+                    sh 'kubectl apply -f mysql-pv-pvc.yaml -n jenkins --token=$KUBE_CREDENTIALS'
+                    sh 'kubectl apply -f mysql-configMap.yaml -n jenkins --token=$KUBE_CREDENTIALS'
+                    sh 'kubectl apply -f backend-deployment.yaml -n jenkins --token=$KUBE_CREDENTIALS'
                     sh 'kubectl get pods -n jenkins'
                 }
             }
