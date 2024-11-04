@@ -108,10 +108,10 @@ pipeline {
                 script {
                     echo 'Deploying to K8s...'
                     sh 'kubectl config set-credentials jenkins --token=$KUBE_CREDENTIALS'
-                    sh 'kubectl apply -f mysql-secrets.yaml -n jenkins'
-                    sh 'kubectl apply -f mysql-pv-pvc.yaml -n jenkins'
-                    sh 'kubectl apply -f mysql-configMap.yaml -n jenkins'
-                    sh 'kubectl apply -f backend-deployment.yaml -n jenkins'
+                    sh 'kubectl apply -f mysql-secrets.yaml -n jenkins --validate=false'
+                    sh 'kubectl apply -f mysql-pv-pvc.yaml -n jenkins --validate=false'
+                    sh 'kubectl apply -f mysql-configMap.yaml -n jenkins --validate=false'
+                    sh 'kubectl apply -f backend-deployment.yaml -n jenkins --validate=false'
                     sh 'kubectl get pods -n jenkins'
                 }
             }
