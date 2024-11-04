@@ -115,9 +115,9 @@ pipeline {
                     sh 'kubectl get pods -n jenkins'
                 }
             }
-        }
+        }*/
     }
-*/
+
     post {
         always {
             script {
