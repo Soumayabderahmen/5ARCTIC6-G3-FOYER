@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         GITHUB_CREDENTIALS_ID='GITHUB_CREDS'
-        DOCKER_HUB_CREDS='DOCKER_HUB_CREDS'
+        DOCKERHUB_CREDENTIALS_ID='DOCKER_HUB_CREDS'
 
     }
     tools {
@@ -62,7 +62,20 @@ pipeline {
                     }
                 }
             }
-        }  
+        }
+        stage('Deploy the spring boot application using docker compose'){
+        steps{
+        script {
+          echo 'Deploying Spring application with Mysql Container using Docker compose'
+          sh 'docker-compose -f docker-compose.yaml up -d'
+        }
+      }
     }
+    }
+      post {
+    always {
+       sh 'docker-compose down'     
+    }
+  }
 }
 
