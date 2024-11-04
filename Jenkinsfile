@@ -7,7 +7,7 @@ pipeline {
         EMAIL_RECIPIENT = 'soumayaabderahmen44@gmail.com'
         EMAIL_SUBJECT = 'Statut du Build Jenkins'
         NEXUS_CREDENTIALS_ID = 'nexus_credentials_id'
-        KUBE_CREDENTIALS = credentials('jenkins-token-minikube')
+        KUBE_CREDENTIALS = credentials('jenkins-token')
 
     }
 
