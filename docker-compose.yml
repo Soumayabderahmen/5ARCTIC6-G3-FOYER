@@ -1,0 +1,36 @@
+version: "3"
+services:
+  springboot-app:
+    image: myrtg/mootazbenfarhat-5arctic6-g3:firstpush
+    ports:
+      - 8081:8081
+    networks:
+      - networkmysql
+    depends_on:
+      - mysqldb
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: foyer
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - networkmysql
+    environment:
+      MYSQL_DATABASE: foyer
+      MYSQL_ROOT_PASSWORD: root
+
+networks:
+  networkmysql:
+    driver: bridge
+
+volumes:
+  mysql-data:
