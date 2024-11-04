@@ -11,6 +11,8 @@ services:
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - ./data:/prmetheus
+    networks:
+      - monitoring
 
   grafana:
     container_name: grafana
@@ -19,6 +21,8 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
 
 networks:
   monitoring:
