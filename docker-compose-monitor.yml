@@ -16,6 +16,8 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus  # Volume pour persister les données de Prometheus
+
     ports:
       - "9090:9090"
     networks:
@@ -40,5 +42,6 @@ networks:
   monitoring:
     driver: bridge
 volumes:
-  grafana-data:  # Déclaration du volume nommé
-  influxdb_data:
+  grafana-data:  # Déclaration du volume nommé pour Grafana
+  influxdb_data:  # Déclaration du volume nommé pour InfluxDB
+  prometheus_data:  # Déclaration du volume nommé pour Prometheus
