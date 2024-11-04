@@ -10,7 +10,7 @@ services:
       INFLUXDB_USER: admin
       INFLUXDB_USER_PASSWORD: admin
     volumes:
-      - influxdb_data:/var/lib/influxdb
+      - influxdb_data:/var/lib/influxdb2
   prometheus:
     image: prom/prometheus
     container_name: prometheus
