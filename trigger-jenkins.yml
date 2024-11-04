@@ -1,0 +1,14 @@
+name: Trigger Jenkins Build
+
+on:
+  push:
+    branches:
+      - MouhanedAkermi-5ARCTIC6-G3
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jenkins Webhook
+        run: |
+          curl -X POST http://192.168.10.136/github-webhook/  # replace with your Jenkins URL
