@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+    environment:
+      INFLUXDB_DB: ci_cd_metrics
+      INFLUXDB_USER: admin
+      INFLUXDB_USER_PASSWORD: admin
+    volumes:
+      - influxdb_data:/var/lib/influxdb
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -31,3 +41,4 @@ networks:
     driver: bridge
 volumes:
   grafana-data:  # Déclaration du volume nommé
+  influxdb_data:
