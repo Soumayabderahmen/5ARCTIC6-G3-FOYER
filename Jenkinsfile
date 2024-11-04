@@ -1,24 +1,5 @@
 pipeline {
-    agent {
-        kubernetes {
-            yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: maven
-                image: maven:alpine
-                command:
-                - cat
-                tty: true
-              - name: kubectl
-                image: bitnami/kubectl:latest  # Use a kubectl image
-                command:
-                - cat
-                tty: true
-            '''
-        }
-    }
+    agent any
 
     environment {
         GITHUB_CREDENTIALS_ID = 'soumaya_github'
@@ -27,6 +8,7 @@ pipeline {
         EMAIL_SUBJECT = 'Statut du Build Jenkins'
         NEXUS_CREDENTIALS_ID = 'nexus_credentials_id'
         KUBE_CREDENTIALS = credentials('jenkins-token')
+
     }
 
     tools {
@@ -112,11 +94,19 @@ pipeline {
             }
         }
 
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    echo 'Deploying application using Docker Compose...'
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+
         stage('Deploy to Minikube') {
             steps {
                 script {
                     echo 'Deploying to K8s...'
-                    // Configure kubectl with the credentials
                     sh 'kubectl config set-credentials jenkins --token=$KUBE_CREDENTIALS'
                     sh 'kubectl apply -f mysql-secrets.yaml -n jenkins --validate=false'
                     sh 'kubectl apply -f mysql-pv-pvc.yaml -n jenkins --validate=false'
