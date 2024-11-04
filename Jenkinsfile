@@ -102,7 +102,7 @@ pipeline {
                 }
             }
         }
-
+/*
         stage('Deploy to Minikube') {
             steps {
                 script {
@@ -117,7 +117,7 @@ pipeline {
             }
         }
     }
-
+*/
     post {
         always {
             script {
