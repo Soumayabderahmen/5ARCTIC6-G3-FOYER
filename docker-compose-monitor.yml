@@ -2,7 +2,7 @@ version: '3'
 
 services:
   influxdb:
-    image: influxdb:latest
+    image: influxdb:1.8.6-alpine
     ports:
       - "8086:8086"
     environment:
@@ -10,7 +10,7 @@ services:
       INFLUXDB_USER: admin
       INFLUXDB_USER_PASSWORD: admin
     volumes:
-      - influxdb_data:/var/lib/influxdb2
+      - influxdb_data:/var/lib/influxdb
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -45,3 +45,4 @@ volumes:
   grafana-data:  # Déclaration du volume nommé pour Grafana
   influxdb_data:  # Déclaration du volume nommé pour InfluxDB
   prometheus_data:  # Déclaration du volume nommé pour Prometheus
+
