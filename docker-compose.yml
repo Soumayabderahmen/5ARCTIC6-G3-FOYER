@@ -14,7 +14,7 @@ services:
       MYSQL_ROOT_PASSWORD:
 
   springboot-app:
-    image: mouhanedakermi/mouhanedakermi_g3_foyer
+    image: mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0
     ports:
       - "8082:8082"
     networks:
