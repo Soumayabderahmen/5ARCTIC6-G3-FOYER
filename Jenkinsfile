@@ -65,6 +65,8 @@ pipeline {
                 sh 'docker build -t mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 .'
             }
         }
+
+
         stage ('Pushing image to DockerHub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${env.DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -73,6 +75,12 @@ pipeline {
                 }
             }
         }
+
+        stage ('Deploy Spring boot and MySql containers with docker compose'){
+                    steps {
+                        sh 'docker compose -f docker-compose.yml up -d'
+                    }
+                }
     }
 
     post {

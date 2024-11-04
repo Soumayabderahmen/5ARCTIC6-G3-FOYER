@@ -1,0 +1,36 @@
+version: "3"
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - dbnetwork
+    environment:
+      MYSQL_DATABASE: foyer
+      MYSQL_ROOT_PASSWORD:
+
+  springboot-app:
+    image: mouhanedakermi/mouhanedakermi_g3_foyer
+    ports:
+      - "8082:8082"
+    networks:
+      - dbnetwork
+    depends_on:
+      - mysqldb
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: foyer
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+volumes:
+  mysql-data:
