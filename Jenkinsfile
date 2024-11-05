@@ -110,7 +110,9 @@ pipeline {
                     sh 'kubectl apply -f mysql-secrets.yaml'
                     sh 'kubectl apply -f mysql-pv-pvc.yaml'
                     sh 'kubectl apply -f mysql-configMap.yaml'
+                    sh 'kubectl apply -f db-deployment.yaml'
                     sh 'kubectl apply -f backend-deployment.yaml'
+
                     sh 'kubectl get pods'
                 }
             }
