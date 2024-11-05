@@ -24,10 +24,3 @@ spec:
               value: "root"
             - name: MYSQL_ROOT_PASSWORD
               value: "root"
-          volumeMounts:
-            - mountPath: "/var/lib/mysql"
-              name: mysql-devops-storage  # Nom modifié en minuscules avec des tirets
-      volumes:
-        - name: mysql-devops-storage  # Nom modifié en minuscules avec des tirets
-          persistentVolumeClaim:
-            claimName: mysql-devops-pvc  # Assure-toi que le PVC a ce nom
