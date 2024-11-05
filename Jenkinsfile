@@ -108,7 +108,6 @@ pipeline {
                 script {
                     echo 'Deploying to K8s...'
                     sh 'kubectl config use-context minikube'
-                    sh 'eval $(minikube docker-env)'
                     sh 'kubectl apply -f mysql-secrets.yaml'
                     sh 'kubectl apply -f mysql-pv-pvc.yaml'
                     sh 'kubectl apply -f mysql-configMap.yaml'
