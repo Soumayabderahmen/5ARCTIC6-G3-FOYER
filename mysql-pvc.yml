@@ -1,10 +1,14 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
-  name: mysql-devops-pvc  # Nom modifié en minuscules avec des tirets
+  name: mysql-devops-pv
 spec:
+  capacity:
+    storage: 5Gi  # Doit correspondre à la demande du PVC
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard  # Assure-toi que ce StorageClass correspond à celui que ton PVC utilise
+  hostPath:
+    path: /mnt/data/mysql  # Indique un chemin local sur le noeud (pour un environnement local)
