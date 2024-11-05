@@ -19,7 +19,7 @@ spec:
             - containerPort: 8088
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysqlDevops-db:3306/Foyer?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+              value: "jdbc:mysql://mysql:3307/Foyer?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
