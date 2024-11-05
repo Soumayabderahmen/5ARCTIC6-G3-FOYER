@@ -20,7 +20,5 @@ spec:
           env:
             - name: MYSQL_DATABASE
               value: "Foyer"
-            - name: MYSQL_USER
-              value: "root"
             - name: MYSQL_ROOT_PASSWORD
               value: "root"
