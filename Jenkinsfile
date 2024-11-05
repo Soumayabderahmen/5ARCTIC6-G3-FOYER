@@ -102,20 +102,21 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('Deploy to Minikube') {
             steps {
                 script {
                     echo 'Deploying to K8s...'
-                    sh 'kubectl config set-credentials jenkins --token=$KUBE_CREDENTIALS'
-                    sh 'kubectl apply -f mysql-secrets.yaml -n jenkins --validate=false'
-                    sh 'kubectl apply -f mysql-pv-pvc.yaml -n jenkins --validate=false'
-                    sh 'kubectl apply -f mysql-configMap.yaml -n jenkins --validate=false'
-                    sh 'kubectl apply -f backend-deployment.yaml -n jenkins --validate=false'
-                    sh 'kubectl get pods -n jenkins'
+                    sh 'kubectl config use-context minikube'
+                    sh 'eval $(minikube docker-env)'
+                    sh 'kubectl apply -f mysql-secrets.yaml'
+                    sh 'kubectl apply -f mysql-pv-pvc.yaml'
+                    sh 'kubectl apply -f mysql-configMap.yaml'
+                    sh 'kubectl apply -f backend-deployment.yaml'
+                    sh 'kubectl get pods'
                 }
             }
-        }*/
+        }
     }
 
     post {
