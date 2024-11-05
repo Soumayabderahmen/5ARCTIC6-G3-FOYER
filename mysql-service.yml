@@ -1,9 +1,9 @@
-piVersion: v1
+apiVersion: v1  # Ajout de l'apiVersion ici
 kind: Service
 metadata:
-  name: mysql-devops-db  # Nom modifié en minuscules avec des tirets
+  name: mysql-devops-db
 spec:
   ports:
     - port: 3306
   selector:
-    app: mysql-devops-db  # Nom modifié pour correspondre à celui du déploiement
+    app: mysql-devops-db
