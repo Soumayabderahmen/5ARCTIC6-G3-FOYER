@@ -11,7 +11,7 @@ services:
       - dbnetwork
     environment:
       MYSQL_DATABASE: foyer
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: root
 
   springboot-app:
     image: mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0
