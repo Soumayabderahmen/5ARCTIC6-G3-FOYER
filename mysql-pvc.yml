@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysqlDevops-pvc
+  name: mysql-devops-pvc  # Nom modifié en minuscules avec des tirets
 spec:
   accessModes:
     - ReadWriteOnce

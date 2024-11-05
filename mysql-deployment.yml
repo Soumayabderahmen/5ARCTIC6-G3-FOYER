@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysqlDevops-db
+  name: mysql-devops-db  # Nom modifié en minuscules avec des tirets
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysqlDevops-db
+      app: mysql-devops-db  # Nom modifié en minuscules avec des tirets
   template:
     metadata:
       labels:
-        app: mysqlDevops-db
+        app: mysql-devops-db  # Nom modifié en minuscules avec des tirets
     spec:
       containers:
-        - name: mysqlDevops-db
+        - name: mysql-devops-db  # Nom modifié en minuscules avec des tirets
           image: mysql:latest
           ports:
             - containerPort: 3306
@@ -26,8 +26,8 @@ spec:
               value: "root"
           volumeMounts:
             - mountPath: "/var/lib/mysql"
-              name: mysqlDevops-storage
+              name: mysql-devops-storage  # Nom modifié en minuscules avec des tirets
       volumes:
-        - name: mysqlDevops-storage
+        - name: mysql-devops-storage  # Nom modifié en minuscules avec des tirets
           persistentVolumeClaim:
-            claimName: mysqlDevops-pvc
+            claimName: mysql-devops-pvc  # Assure-toi que le PVC a ce nom
