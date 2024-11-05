@@ -24,7 +24,7 @@ services:
     environment:
       MYSQL_HOST: mysqldb
       MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_PASSWORD: root
       MYSQL_PORT: 3306
       MYSQL_DB_NAME: foyer
 
