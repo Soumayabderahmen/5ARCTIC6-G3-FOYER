@@ -3,6 +3,7 @@ package tn.esprit.spring.services.chambre;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.Bloc;
 import tn.esprit.spring.dao.entities.Chambre;
 import tn.esprit.spring.dao.entities.TypeChambre;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class ChambreService implements IChambreService {
     ChambreRepository repo;
     BlocRepository blocRepository;

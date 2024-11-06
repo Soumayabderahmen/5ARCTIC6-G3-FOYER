@@ -2,6 +2,7 @@ package tn.esprit.spring.services.foyer;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.*;
 import tn.esprit.spring.dao.repositories.BlocRepository;
 import tn.esprit.spring.dao.repositories.FoyerRepository;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class FoyerService implements IFoyerService {
     FoyerRepository repo;
     BlocRepository blocRepository;
