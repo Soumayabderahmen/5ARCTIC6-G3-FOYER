@@ -28,7 +28,7 @@ public class BlocService implements IBlocService {
     @Override
     public Bloc addOrUpdate(Bloc b) {
         List<Chambre> chambres= b.getChambres();
-        //b= repo.save(b);
+        b= repo.save(b);
         for (Chambre chambre: chambres) {
             chambre.setBloc(b);
             chambreRepository.save(chambre);

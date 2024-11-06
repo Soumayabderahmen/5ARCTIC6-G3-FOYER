@@ -3,6 +3,7 @@
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.Bloc;
 import tn.esprit.spring.dao.entities.Chambre;
 import tn.esprit.spring.dao.entities.TypeChambre;
@@ -14,87 +15,88 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-<span class="nc" id="L17">@AllArgsConstructor</span>
-<span class="nc" id="L18">@Slf4j</span>
+<span class="nc" id="L18">@AllArgsConstructor</span>
+<span class="nc" id="L19">@Slf4j</span>
+@Transactional
 public class ChambreService implements IChambreService {
     ChambreRepository repo;
     BlocRepository blocRepository;
 
     @Override
     public Chambre addOrUpdate(Chambre c) {
-<span class="nc" id="L25">        return repo.save(c);</span>
+<span class="nc" id="L27">        return repo.save(c);</span>
     }
 
     @Override
     public List&lt;Chambre&gt; findAll() {
-<span class="nc" id="L30">        return repo.findAll();</span>
+<span class="nc" id="L32">        return repo.findAll();</span>
     }
 
     @Override
     public Chambre findById(long id) {
-<span class="nc" id="L35">        Optional&lt;Chambre&gt; optionalChambre = repo.findById(id);</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (optionalChambre.isPresent()) {</span>
-<span class="nc" id="L37">            return optionalChambre.get();</span>
+<span class="nc" id="L37">        Optional&lt;Chambre&gt; optionalChambre = repo.findById(id);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (optionalChambre.isPresent()) {</span>
+<span class="nc" id="L39">            return optionalChambre.get();</span>
         } else {
-<span class="nc" id="L39">            throw new NoSuchElementException(&quot;Chambre not found with id: &quot; + id);</span>
+<span class="nc" id="L41">            throw new NoSuchElementException(&quot;Chambre not found with id: &quot; + id);</span>
         }
     }
 
 
     @Override
     public void deleteById(long id) {
-<span class="nc" id="L46">        repo.deleteById(id);</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L48">        repo.deleteById(id);</span>
+<span class="nc" id="L49">    }</span>
 
     @Override
     public void delete(Chambre c) {
-<span class="nc" id="L51">        repo.delete(c);</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L53">        repo.delete(c);</span>
+<span class="nc" id="L54">    }</span>
 
     @Override
     public List&lt;Chambre&gt; getChambresParNomBloc(String nomBloc) {
-<span class="nc" id="L56">        return repo.findByBlocNomBloc(nomBloc);</span>
+<span class="nc" id="L58">        return repo.findByBlocNomBloc(nomBloc);</span>
     }
 
     @Override
     public long nbChambreParTypeEtBloc(TypeChambre type, long idBloc) {
-<span class="nc" id="L61">        return repo.countByTypeCAndBlocIdBloc(type, idBloc);</span>
+<span class="nc" id="L63">        return repo.countByTypeCAndBlocIdBloc(type, idBloc);</span>
     }
 
 
     @Override
     public void listeChambresParBloc() {
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (Bloc b : blocRepository.findAll()) {</span>
-<span class="nc" id="L68">            log.info(&quot;Bloc =&gt; &quot; + b.getNomBloc() + &quot; ayant une capacité &quot; + b.getCapaciteBloc());</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (b.getChambres().size() != 0) {</span>
-<span class="nc" id="L70">                log.info(&quot;La liste des chambres pour ce bloc: &quot;);</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">                for (Chambre c : b.getChambres()) {</span>
-<span class="nc" id="L72">                    log.info(&quot;NumChambre: &quot; + c.getNumeroChambre() + &quot; type: &quot; + c.getTypeC());</span>
-<span class="nc" id="L73">                }</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (Bloc b : blocRepository.findAll()) {</span>
+<span class="nc" id="L70">            log.info(&quot;Bloc =&gt; &quot; + b.getNomBloc() + &quot; ayant une capacité &quot; + b.getCapaciteBloc());</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (b.getChambres().size() != 0) {</span>
+<span class="nc" id="L72">                log.info(&quot;La liste des chambres pour ce bloc: &quot;);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                for (Chambre c : b.getChambres()) {</span>
+<span class="nc" id="L74">                    log.info(&quot;NumChambre: &quot; + c.getNumeroChambre() + &quot; type: &quot; + c.getTypeC());</span>
+<span class="nc" id="L75">                }</span>
             } else {
-<span class="nc" id="L75">                log.info(&quot;Pas de chambre disponible dans ce bloc&quot;);</span>
+<span class="nc" id="L77">                log.info(&quot;Pas de chambre disponible dans ce bloc&quot;);</span>
             }
-<span class="nc" id="L77">            log.info(&quot;********************&quot;);</span>
-<span class="nc" id="L78">        }</span>
-<span class="nc" id="L79">    }</span>
+<span class="nc" id="L79">            log.info(&quot;********************&quot;);</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
 
     @Override
     public void pourcentageChambreParTypeChambre() {
-<span class="nc" id="L83">        long totalChambre = repo.count();</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (totalChambre == 0) {</span>
-<span class="nc" id="L85">            log.warn(&quot;Aucune chambre trouvée pour calculer les pourcentages.&quot;);</span>
-<span class="nc" id="L86">            return;</span>
+<span class="nc" id="L85">        long totalChambre = repo.count();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (totalChambre == 0) {</span>
+<span class="nc" id="L87">            log.warn(&quot;Aucune chambre trouvée pour calculer les pourcentages.&quot;);</span>
+<span class="nc" id="L88">            return;</span>
         }
 
-<span class="nc" id="L89">        double pSimple = ((double) repo.countChambreByTypeC(TypeChambre.SIMPLE) * 100) / totalChambre;</span>
-<span class="nc" id="L90">        double pDouble = ((double) repo.countChambreByTypeC(TypeChambre.DOUBLE) * 100) / totalChambre;</span>
-<span class="nc" id="L91">        double pTriple = ((double) repo.countChambreByTypeC(TypeChambre.TRIPLE) * 100) / totalChambre;</span>
+<span class="nc" id="L91">        double pSimple = ((double) repo.countChambreByTypeC(TypeChambre.SIMPLE) * 100) / totalChambre;</span>
+<span class="nc" id="L92">        double pDouble = ((double) repo.countChambreByTypeC(TypeChambre.DOUBLE) * 100) / totalChambre;</span>
+<span class="nc" id="L93">        double pTriple = ((double) repo.countChambreByTypeC(TypeChambre.TRIPLE) * 100) / totalChambre;</span>
 
-<span class="nc" id="L93">        log.info(&quot;Nombre total des chambres : &quot; + totalChambre);</span>
-<span class="nc" id="L94">        log.info(&quot;Le pourcentage des chambres pour le type SIMPLE est égal à &quot; + pSimple);</span>
-<span class="nc" id="L95">        log.info(&quot;Le pourcentage des chambres pour le type DOUBLE est égal à &quot; + pDouble);</span>
-<span class="nc" id="L96">        log.info(&quot;Le pourcentage des chambres pour le type TRIPLE est égal à &quot; + pTriple);</span>
-<span class="nc" id="L97">    }</span>
+<span class="nc" id="L95">        log.info(&quot;Nombre total des chambres : &quot; + totalChambre);</span>
+<span class="nc" id="L96">        log.info(&quot;Le pourcentage des chambres pour le type SIMPLE est égal à &quot; + pSimple);</span>
+<span class="nc" id="L97">        log.info(&quot;Le pourcentage des chambres pour le type DOUBLE est égal à &quot; + pDouble);</span>
+<span class="nc" id="L98">        log.info(&quot;Le pourcentage des chambres pour le type TRIPLE est égal à &quot; + pTriple);</span>
+<span class="nc" id="L99">    }</span>
 
 
 

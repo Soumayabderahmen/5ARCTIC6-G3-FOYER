@@ -15,5 +15,5 @@ Foyer,tn.esprit.spring.dao.entities,Bloc,70,0,0,0,10,0,13,0,13,0
 Foyer,tn.esprit.spring.dao.entities,Chambre.ChambreBuilder,45,0,0,0,1,0,7,0,7,0
 Foyer,tn.esprit.spring.dao.entities,TypeChambre,0,21,0,0,0,2,0,1,0,1
 Foyer,tn.esprit.spring.aop,FoyerAspect,26,7,0,0,8,2,3,2,3,2
-Foyer,tn.esprit.spring.services.foyer,FoyerService,70,9,4,0,17,1,8,1,6,1
+Foyer,tn.esprit.spring.services.foyer,FoyerService,79,0,4,0,18,0,9,0,7,0
 Foyer,tn.esprit.spring.config,SpringDocConfig,0,164,0,0,0,45,0,11,0,11

@@ -2,6 +2,7 @@
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.dao.entities.*;
 import tn.esprit.spring.dao.repositories.BlocRepository;
 import tn.esprit.spring.dao.repositories.FoyerRepository;
@@ -11,40 +12,41 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-<span class="fc" id="L14">@AllArgsConstructor</span>
+<span class="nc" id="L15">@AllArgsConstructor</span>
+@Transactional
 public class FoyerService implements IFoyerService {
     FoyerRepository repo;
     BlocRepository blocRepository;
 
     @Override
     public Foyer addOrUpdate(Foyer f) {
-<span class="nc" id="L21">        return repo.save(f);</span>
+<span class="nc" id="L23">        return repo.save(f);</span>
     }
 
     @Override
     public List&lt;Foyer&gt; findAll() {
-<span class="nc" id="L26">        return repo.findAll();</span>
+<span class="nc" id="L28">        return repo.findAll();</span>
     }
 
     @Override
     public Foyer findById(long id) {
-<span class="nc" id="L31">        Optional&lt;Foyer&gt; optionalFoyer = repo.findById(id);</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (optionalFoyer.isPresent()) {</span>
-<span class="nc" id="L33">            return optionalFoyer.get();</span>
+<span class="nc" id="L33">        Optional&lt;Foyer&gt; optionalFoyer = repo.findById(id);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (optionalFoyer.isPresent()) {</span>
+<span class="nc" id="L35">            return optionalFoyer.get();</span>
         } else {
-<span class="nc" id="L35">            throw new NoSuchElementException(&quot;Foyer not found with id: &quot; + id);</span>
+<span class="nc" id="L37">            throw new NoSuchElementException(&quot;Foyer not found with id: &quot; + id);</span>
         }
     }
 
     @Override
     public void deleteById(long id) {
-<span class="nc" id="L41">        repo.deleteById(id);</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L43">        repo.deleteById(id);</span>
+<span class="nc" id="L44">    }</span>
 
     @Override
     public void delete(Foyer f) {
-<span class="nc" id="L46">        repo.delete(f);</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L48">        repo.delete(f);</span>
+<span class="nc" id="L49">    }</span>
 
 
 
@@ -53,13 +55,13 @@ public class FoyerService implements IFoyerService {
     public Foyer ajoutFoyerEtBlocs(Foyer foyer) {
 
         //-----------------------------------------
-<span class="nc" id="L56">        List&lt;Bloc&gt; blocs = foyer.getBlocs();</span>
-<span class="nc" id="L57">        foyer = repo.save(foyer);</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (Bloc b : blocs) {</span>
-<span class="nc" id="L59">            b.setFoyer(foyer);</span>
-<span class="nc" id="L60">            blocRepository.save(b);</span>
-<span class="nc" id="L61">        }</span>
-<span class="nc" id="L62">        return foyer;</span>
+<span class="nc" id="L58">        List&lt;Bloc&gt; blocs = foyer.getBlocs();</span>
+<span class="nc" id="L59">        foyer = repo.save(foyer);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        for (Bloc b : blocs) {</span>
+<span class="nc" id="L61">            b.setFoyer(foyer);</span>
+<span class="nc" id="L62">            blocRepository.save(b);</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">        return foyer;</span>
     }
 
 }

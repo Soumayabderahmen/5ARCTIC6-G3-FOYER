@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 <span class="fc" id="L19">@AllArgsConstructor</span>
+@Transactional
 public class BlocService implements IBlocService {
     BlocRepository repo;
     ChambreRepository chambreRepository;
@@ -26,71 +27,71 @@ public class BlocService implements IBlocService {
 
     @Override
     public Bloc addOrUpdate(Bloc b) {
-<span class="fc" id="L29">        List&lt;Chambre&gt; chambres= b.getChambres();</span>
-<span class="fc" id="L30">        b= repo.save(b);</span>
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (Chambre chambre: chambres) {</span>
-<span class="fc" id="L32">            chambre.setBloc(b);</span>
-<span class="fc" id="L33">            chambreRepository.save(chambre);</span>
-<span class="fc" id="L34">        }</span>
-<span class="fc" id="L35">        return b;</span>
+<span class="fc" id="L30">        List&lt;Chambre&gt; chambres= b.getChambres();</span>
+<span class="fc" id="L31">        b= repo.save(b);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (Chambre chambre: chambres) {</span>
+<span class="fc" id="L33">            chambre.setBloc(b);</span>
+<span class="fc" id="L34">            chambreRepository.save(chambre);</span>
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">        return b;</span>
     }
 
 
     @Override
     public List&lt;Bloc&gt; findAll() {
-<span class="fc" id="L41">        return repo.findAll();</span>
+<span class="fc" id="L42">        return repo.findAll();</span>
     }
 
     @Override
     public Bloc findById(long id) {
-<span class="fc" id="L46">        Optional&lt;Bloc&gt; optionalBloc = repo.findById(id);</span>
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (optionalBloc.isPresent()) {</span>
-<span class="fc" id="L48">            return optionalBloc.get();</span>
+<span class="fc" id="L47">        Optional&lt;Bloc&gt; optionalBloc = repo.findById(id);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (optionalBloc.isPresent()) {</span>
+<span class="fc" id="L49">            return optionalBloc.get();</span>
         } else {
-<span class="nc" id="L50">            throw new NoSuchElementException(&quot;Bloc not found with id: &quot; + id);</span>
+<span class="nc" id="L51">            throw new NoSuchElementException(&quot;Bloc not found with id: &quot; + id);</span>
         }
     }
 
 
     @Override
     public void deleteById(long id) {
-<span class="fc" id="L57">        repo.deleteById(id);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L58">        repo.deleteById(id);</span>
+<span class="fc" id="L59">    }</span>
 
     @Override
     public void delete(Bloc b) {
-<span class="fc" id="L62">        List&lt;Chambre&gt; chambres= b.getChambres();</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (Chambre chambre: chambres) {</span>
-<span class="fc" id="L64">            chambreRepository.delete(chambre);</span>
-<span class="fc" id="L65">        }</span>
-<span class="fc" id="L66">        repo.delete(b);</span>
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L63">        List&lt;Chambre&gt; chambres= b.getChambres();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for (Chambre chambre: chambres) {</span>
+<span class="fc" id="L65">            chambreRepository.delete(chambre);</span>
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">        repo.delete(b);</span>
+<span class="fc" id="L68">    }</span>
 
 
 
     @Override
     public Bloc affecterChambresABloc(List&lt;Long&gt; numChambre, String nomBloc) {
         //1
-<span class="fc" id="L74">        Bloc b = repo.findByNomBloc(nomBloc);</span>
-<span class="fc" id="L75">        List&lt;Chambre&gt; chambres= new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (Long nu: numChambre) {</span>
-<span class="fc" id="L77">            Chambre chambre=chambreRepository.findByNumeroChambre(nu);</span>
-<span class="fc" id="L78">            chambres.add(chambre);</span>
-<span class="fc" id="L79">        }</span>
+<span class="fc" id="L75">        Bloc b = repo.findByNomBloc(nomBloc);</span>
+<span class="fc" id="L76">        List&lt;Chambre&gt; chambres= new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for (Long nu: numChambre) {</span>
+<span class="fc" id="L78">            Chambre chambre=chambreRepository.findByNumeroChambre(nu);</span>
+<span class="fc" id="L79">            chambres.add(chambre);</span>
+<span class="fc" id="L80">        }</span>
 
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (Chambre cha : chambres) {</span>
-<span class="fc" id="L82">            cha.setBloc(b);</span>
-<span class="fc" id="L83">            chambreRepository.save(cha);</span>
-<span class="fc" id="L84">        }</span>
-<span class="fc" id="L85">        return b;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (Chambre cha : chambres) {</span>
+<span class="fc" id="L83">            cha.setBloc(b);</span>
+<span class="fc" id="L84">            chambreRepository.save(cha);</span>
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">        return b;</span>
     }
 
     @Override
     public Bloc affecterBlocAFoyer(String nomBloc, String nomFoyer) {
-<span class="fc" id="L90">        Bloc b = blocRepository.findByNomBloc(nomBloc);</span>
-<span class="fc" id="L91">        Foyer f = foyerRepository.findByNomFoyer(nomFoyer);</span>
-<span class="fc" id="L92">        b.setFoyer(f);</span>
-<span class="fc" id="L93">        return blocRepository.save(b);</span>
+<span class="fc" id="L91">        Bloc b = blocRepository.findByNomBloc(nomBloc);</span>
+<span class="fc" id="L92">        Foyer f = foyerRepository.findByNomFoyer(nomFoyer);</span>
+<span class="fc" id="L93">        b.setFoyer(f);</span>
+<span class="fc" id="L94">        return blocRepository.save(b);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
