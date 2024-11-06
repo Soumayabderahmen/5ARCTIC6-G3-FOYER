@@ -18,11 +18,21 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Maven Test') {
             steps {
                 sh 'mvn test'
             }
         }
+
+         stage(' SonarQube') {
+                    steps {
+                        script {
+                            withSonarQubeEnv('SonarQube') {
+                                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=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 -Dsonar.projectName="ProjetDevops" -Dsonar.host.url=http://10.0.0.10:9000 -Dsonar.token=sqp_74f57357edad180273f842f2cc2b9fea46f260f6  '
+                            }
+                        }
+                    }
+                }
 
         stage('Publish to Nexus') {
             steps {
