@@ -4,6 +4,6 @@ metadata:
   name: mysql-devops-db
 spec:
   ports:
-    - port: 3306
+    - port: 3307
   selector:
     app: mysql-devops-db

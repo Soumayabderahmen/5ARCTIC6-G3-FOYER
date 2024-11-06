@@ -16,7 +16,7 @@ spec:
         - name: mysql-devops-db  # Nom modifié en minuscules avec des tirets
           image: mysql:latest
           ports:
-            - containerPort: 3306
+            - containerPort: 3307
           env:
             - name: MYSQL_DATABASE
               value: "Foyer"
