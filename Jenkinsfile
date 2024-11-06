@@ -5,6 +5,7 @@ pipeline {
         maven 'Maven3'
     }
     environment {
+        GITHUB_TOKEN = 'trivy-credential'
         GITHUB_CREDENTIALS_ID = 'github-token'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub'
     }
@@ -67,12 +68,16 @@ pipeline {
         }
 
         stage("Trivy Scan") {
-           steps {
-               script {
-                sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table --skip-db-update')
-               }
-           }
-       }
+            steps {
+                script {
+                    sh '''docker run -v /var/run/docker.sock:/var/run/docker.sock \
+                          -e GITHUB_TOKEN=$GITHUB_TOKEN \
+                          aquasec/trivy image mouhanedakermi/mouhanedakermi_g3_foyer:v1.0.0 \
+                          --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'''
+                }
+            }
+        }
+
 
         stage ('Pushing image to DockerHub') {
             steps {
