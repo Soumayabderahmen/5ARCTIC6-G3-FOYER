@@ -5,7 +5,6 @@ pipeline {
         maven 'Maven3'
     }
     environment {
-        GITHUB_TOKEN = 'trivy-credential'
         GITHUB_CREDENTIALS_ID = 'github-token'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub'
     }
