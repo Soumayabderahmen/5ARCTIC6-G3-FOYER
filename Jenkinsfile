@@ -4,8 +4,6 @@ pipeline {
   environment {
       GITHUB_CREDENTIALS_ID = 'github_soussi_ssh_key'
       DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials_soussi'
-      EMAIL_RECIPIENT = 'mohamednour.soussi@esprit.tn'
-      EMAIL_SUBJECT = 'Jenkins CI/CD Status'
   }
   tools {
       maven 'Maven_HOME'
