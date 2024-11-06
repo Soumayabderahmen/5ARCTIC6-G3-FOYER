@@ -90,7 +90,7 @@ pipeline {
           steps {
             script {
               echo 'Running security scan with Trivy and saving report'
-              sh 'trivy image --severity CRITICAL,HIGH --timeout 10m --format json --output trivy-report.json --vuln-type os mohamedns/soussimohamednour_g3_foyer:0.1'
+              sh 'trivy image --severity CRITICAL,HIGH --timeout 10m --format json --output trivy-report.json --vuln-type os --skip-db-update --skip-java-db-update mohamedns/soussimohamednour_g3_foyer:0.1'
             }
           }
         }
