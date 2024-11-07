@@ -100,7 +100,6 @@ pipeline {
             sshpass -p ${remotePassword} scp -o StrictHostKeyChecking=no springboot-deployment.yml ${remoteUser}@${remoteHost}:~
             sshpass -p ${remotePassword} scp -o StrictHostKeyChecking=no springboot-service.yml ${remoteUser}@${remoteHost}:~
             sshpass -p ${remotePassword} scp -o StrictHostKeyChecking=no mysql-deployment.yml ${remoteUser}@${remoteHost}:~
-            sshpass -p ${remotePassword} scp -o StrictHostKeyChecking=no mysql-pvc.yml ${remoteUser}@${remoteHost}:~
             sshpass -p ${remotePassword} scp -o StrictHostKeyChecking=no mysql-service.yml ${remoteUser}@${remoteHost}:~
             """
 
