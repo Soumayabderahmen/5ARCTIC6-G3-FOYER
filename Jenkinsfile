@@ -78,21 +78,26 @@ pipeline {
       }
     }
 
-    stage('Docker Image Build and Security Scan') {
-      parallel {
-        stage('Building Docker image') {
-          steps {
-            sh 'docker build -t mohamedns/soussimohamednour_g3_foyer:0.1 .'
-          }
-        }
 
-        stage('Security Scan for Docker image with Trivy') {
-          steps {
-            script {
-              echo 'Running security scan with Trivy and saving report'
-              sh 'trivy image --severity CRITICAL,HIGH --timeout 10m --format json --output trivy-report.json --vuln-type os --skip-db-update --skip-java-db-update mohamedns/soussimohamednour_g3_foyer:0.1'
-            }
-          }
+    stage('Building Docker image') {
+      steps {
+        sh 'docker build -t mohamedns/soussimohamednour_g3_foyer:0.1 .'
+      }
+    }
+
+
+    
+    stage('Security Scan for Docker image with Trivy') {
+      steps {
+        script {
+          def dirPath = "/home/jenkins/.cache/trivy"
+          echo 'Running security scan with Trivy and saving report'
+          sh """
+          trivy image --severity CRITICAL,HIGH --timeout 10m \
+          --format json --output trivy-report.json --vuln-type os\
+          --cache-dir  ${dirPath}\
+          mohamedns/soussimohamednour_g3_foyer:0.1
+          """
         }
       }
     }
@@ -161,3 +166,4 @@ pipeline {
     }
   }
 }
+
